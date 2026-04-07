@@ -72,16 +72,9 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 0 auto;
 }
 
-/* ---- REVEAL ---- */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity var(--duration) var(--ease-out-expo), transform var(--duration) var(--ease-out-expo);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
+/* ---- REVEAL (disabled) ---- */
+.reveal { opacity: 1; transform: none; }
+.delay-1, .delay-2, .delay-3 { transition-delay: 0s; }
 
 /* ---- HERO ---- */
 .hero {
@@ -159,12 +152,6 @@ canvas#fluid {
 @media (max-width: 768px) {
   canvas#fluid {
     transform: scaleY(-1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
   }
   .hero-logo-img { height: 100px; }
   .hero-tagline {
@@ -590,17 +577,16 @@ canvas#fluid {
   width: 100%;
   height: 300px;
   position: relative;
-  overflow: visible;
   pointer-events: none;
+  margin: 0;
 }
 .fluid-snake canvas {
-  position: absolute;
-  top: -100px;
-  left: 0;
   width: 100%;
-  height: calc(100% + 200px);
-  z-index: 100;
-  pointer-events: none;
+  height: 100%;
+  display: block;
+}
+@media (max-width: 768px) {
+  .fluid-snake { height: 120px; }
 }
 .fluid-snake canvas {
   width: 100%;
@@ -874,7 +860,7 @@ canvas#fluid {
 
 <!-- ===== COMPANY INFO ===== -->
 <section id="company" style="min-height:auto;">
-  <div class="section-pad">
+  <div class="section-pad" style="padding-bottom:40px;">
     <h2 class="section-title reveal">法人概要</h2>
 
     <table class="company-table reveal delay-1">
@@ -898,7 +884,7 @@ canvas#fluid {
 
 <!-- ===== CONTACT ===== -->
 <section class="contact-section" id="contact">
-  <div class="section-pad" style="text-align:center;">
+  <div class="section-pad" style="text-align:center; padding-top:40px;">
     <h2 class="section-title reveal delay-1">ご連絡ください</h2>
     <p class="section-desc reveal delay-2" style="margin:0 auto 32px;">
       取材や各種事業へのお問い合わせは下記メールアドレスまでお気軽にご連絡ください。
@@ -1347,13 +1333,18 @@ canvas#fluid {
 
   var vsSource = 'attribute vec2 a_position; void main() { gl_Position = vec4(a_position, 0.0, 1.0); }';
 
-  // Modify the hero fragment shader: thin band, full width, no edge fade
+  // Modify the hero fragment shader: band across full width
+  var isMobile = window.innerWidth <= 768;
+  var snakeHalf = isMobile ? '0.20' : '0.12';
+  var snakeWave = isMobile
+    ? 'float snake = 0.02 * sin(xn * 6.0 + t * 0.3);'
+    : 'float snake = 0.12 * sin(xn * 8.0 + t * 0.3) + 0.06 * sin(xn * 13.0 - t * 0.5);';
   var fsSource = window._heroFS
-    .replace(/float minHalf = [\d.]+;\s*float maxHalf = [\d.]+;/, 'float minHalf = 0.15; float maxHalf = 0.15;')
+    .replace(/float minHalf = [\d.]+;\s*float maxHalf = [\d.]+;/, 'float minHalf = ' + snakeHalf + '; float maxHalf = ' + snakeHalf + ';')
     .replace(/float expansion = [^;]+;/, 'float expansion = 1.0;')
     .replace(/float diagLeft = [^;]+;/, 'float diagLeft = 0.5;')
     .replace(/float blend = [^;]+;/, 'float blend = 0.0;')
-    .replace(/float snake = wave;/, 'float snake = 0.25 * sin(xn * 8.0 + t * 0.3) + 0.15 * sin(xn * 13.0 - t * 0.5);')
+    .replace(/float snake = wave;/, snakeWave)
     .replace(/float richness = [^;]+;/, 'float richness = 1.0;');
 
   function createShader(type, source) {
