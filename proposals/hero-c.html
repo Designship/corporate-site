@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designship - Hero C: Noise Distortion / Liquid Shader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #fff;
+  }
+
+  #webgl-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .hero-logo {
+    height: 140px;
+    width: auto;
+    margin-bottom: 40px;
+    pointer-events: auto;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.2em;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .hero-logo {
+      height: 90px;
+      margin-bottom: 28px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="webgl-canvas"></canvas>
+
+<div class="hero-overlay">
+  <img class="hero-logo" src="../assets/images/logo-for-black-bg.png" alt="Designship">
+  <h1 class="hero-title">産業の未来を拓く</h1>
+  <p class="hero-subtitle">一般社団法人デザインシップ</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  // ── Vertex Shader ──
+  const vertexShader = `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+
+  // ── Fragment Shader ──
+  const fragmentShader = `
+    precision highp float;
+
+    varying vec2 vUv;
+    uniform float uTime;
+    uniform vec2 uMouse;
+    uniform vec2 uResolution;
+
+    //
+    // Simplex 3D noise (Ashima Arts)
+    //
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+    float snoise(vec3 v) {
+      const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
+      const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+      vec3 i  = floor(v + dot(v, C.yyy));
+      vec3 x0 = v - i + dot(i, C.xxx);
+
+      vec3 g = step(x0.yzx, x0.xyz);
+      vec3 l = 1.0 - g;
+      vec3 i1 = min(g.xyz, l.zxy);
+      vec3 i2 = max(g.xyz, l.zxy);
+
+      vec3 x1 = x0 - i1 + C.xxx;
+      vec3 x2 = x0 - i2 + C.yyy;
+      vec3 x3 = x0 - D.yyy;
+
+      i = mod289(i);
+      vec4 p = permute(permute(permute(
+                i.z + vec4(0.0, i1.z, i2.z, 1.0))
+              + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+              + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+      float n_ = 0.142857142857;
+      vec3 ns = n_ * D.wyz - D.xzx;
+
+      vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+      vec4 x_ = floor(j * ns.z);
+      vec4 y_ = floor(j - 7.0 * x_);
+
+      vec4 x = x_ * ns.x + ns.yyyy;
+      vec4 y = y_ * ns.x + ns.yyyy;
+      vec4 h = 1.0 - abs(x) - abs(y);
+
+      vec4 b0 = vec4(x.xy, y.xy);
+      vec4 b1 = vec4(x.zw, y.zw);
+
+      vec4 s0 = floor(b0) * 2.0 + 1.0;
+      vec4 s1 = floor(b1) * 2.0 + 1.0;
+      vec4 sh = -step(h, vec4(0.0));
+
+      vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+      vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+
+      vec3 p0 = vec3(a0.xy, h.x);
+      vec3 p1 = vec3(a0.zw, h.y);
+      vec3 p2 = vec3(a1.xy, h.z);
+      vec3 p3 = vec3(a1.zw, h.w);
+
+      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+      p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+
+      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+      m = m * m;
+      return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+    }
+
+    // Fractal Brownian Motion
+    float fbm(vec3 p) {
+      float value = 0.0;
+      float amplitude = 0.5;
+      float frequency = 1.0;
+      for (int i = 0; i < 5; i++) {
+        value += amplitude * snoise(p * frequency);
+        amplitude *= 0.5;
+        frequency *= 2.0;
+      }
+      return value;
+    }
+
+    // Domain warping for liquid look
+    float warpedNoise(vec3 p) {
+      vec3 q = vec3(
+        fbm(p + vec3(0.0, 0.0, 0.0)),
+        fbm(p + vec3(5.2, 1.3, 2.8)),
+        0.0
+      );
+      vec3 r = vec3(
+        fbm(p + 4.0 * q + vec3(1.7, 9.2, 0.0) + 0.15 * uTime),
+        fbm(p + 4.0 * q + vec3(8.3, 2.8, 0.0) + 0.12 * uTime),
+        0.0
+      );
+      return fbm(p + 3.5 * r);
+    }
+
+    void main() {
+      vec2 uv = vUv;
+      float aspect = uResolution.x / uResolution.y;
+      vec2 st = (uv - 0.5) * vec2(aspect, 1.0);
+
+      // Mouse influence (shifted toward cursor)
+      vec2 mouseOffset = (uMouse - 0.5) * 0.3;
+      st += mouseOffset;
+
+      float t = uTime * 0.08;
+
+      // Multiple warped noise layers at different scales
+      float n1 = warpedNoise(vec3(st * 1.8, t));
+      float n2 = warpedNoise(vec3(st * 2.5 + 10.0, t * 1.3 + 5.0));
+      float n3 = warpedNoise(vec3(st * 1.2 - 8.0, t * 0.7 - 3.0));
+      float n4 = snoise(vec3(st * 3.0, t * 0.5));
+
+      // Brand colors
+      vec3 pink    = vec3(0.914, 0.118, 0.549);  // #E91E8C
+      vec3 purple  = vec3(0.482, 0.184, 0.745);  // #7B2FBE
+      vec3 red     = vec3(1.000, 0.090, 0.267);  // #FF1744
+      vec3 yellow  = vec3(1.000, 0.839, 0.000);  // #FFD600
+      vec3 blue    = vec3(0.188, 0.310, 0.996);  // #304FFE
+
+      // Map noise values to color regions
+      vec3 color = vec3(0.0);
+
+      // Layer colors based on different noise octaves
+      float c1 = smoothstep(-0.2, 0.6, n1);
+      float c2 = smoothstep(-0.1, 0.7, n2);
+      float c3 = smoothstep(0.0, 0.8, n3);
+      float c4 = smoothstep(-0.3, 0.4, n4);
+
+      // Blend colors organically
+      color = mix(color, pink,   c1 * 0.7);
+      color = mix(color, purple, c2 * 0.65);
+      color = mix(color, blue,   c3 * 0.6);
+      color = mix(color, red,    smoothstep(0.1, 0.5, n1 * n2) * 0.7);
+      color = mix(color, yellow, smoothstep(0.2, 0.6, n2 * n3) * 0.5);
+
+      // Overall intensity envelope - keep dark areas
+      float envelope = smoothstep(-0.5, 0.8, n1 + n2 * 0.5) * 0.7;
+      color *= envelope;
+
+      // Slight vignette to darken edges
+      float vignette = 1.0 - length((uv - 0.5) * 1.3);
+      vignette = smoothstep(0.0, 0.7, vignette);
+      color *= vignette;
+
+      // Gamma correction for richer darks
+      color = pow(color, vec3(1.1));
+
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `;
+
+  // ── Three.js Setup ──
+  const canvas = document.getElementById('webgl-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const uniforms = {
+    uTime: { value: 0.0 },
+    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+  };
+
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const material = new THREE.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms
+  });
+
+  scene.add(new THREE.Mesh(geometry, material));
+
+  // ── Mouse ──
+  const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const targetMouse = new THREE.Vector2(0.5, 0.5);
+  const currentMouse = new THREE.Vector2(0.5, 0.5);
+
+  if (!isMobile) {
+    window.addEventListener('mousemove', function (e) {
+      targetMouse.x = e.clientX / window.innerWidth;
+      targetMouse.y = 1.0 - e.clientY / window.innerHeight;
+    });
+  }
+
+  // ── Resize ──
+  window.addEventListener('resize', function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+  });
+
+  // ── Animate ──
+  const clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    uniforms.uTime.value = clock.getElapsedTime();
+
+    // Smooth mouse lerp
+    currentMouse.x += (targetMouse.x - currentMouse.x) * 0.05;
+    currentMouse.y += (targetMouse.y - currentMouse.y) * 0.05;
+    uniforms.uMouse.value.copy(currentMouse);
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+})();
+</script>
+</body>
+</html>

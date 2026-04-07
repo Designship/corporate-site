@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Designship Hero - Mesh Gradient</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #000;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Mesh gradient container */
+    .mesh {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      will-change: transform;
+    }
+
+    /* Magenta blob */
+    .blob--magenta {
+      width: 600px;
+      height: 600px;
+      background: #E91E8C;
+      opacity: 0.5;
+      top: -10%;
+      left: 10%;
+      animation: drift-1 28s ease-in-out infinite alternate;
+    }
+
+    /* Purple blob */
+    .blob--purple {
+      width: 700px;
+      height: 700px;
+      background: #7B2FBE;
+      opacity: 0.55;
+      top: 20%;
+      right: -5%;
+      animation: drift-2 34s ease-in-out infinite alternate;
+    }
+
+    /* Red blob */
+    .blob--red {
+      width: 500px;
+      height: 500px;
+      background: #FF1744;
+      opacity: 0.4;
+      bottom: -5%;
+      left: 30%;
+      animation: drift-3 24s ease-in-out infinite alternate;
+    }
+
+    /* Yellow blob */
+    .blob--yellow {
+      width: 550px;
+      height: 550px;
+      background: #FFD600;
+      opacity: 0.35;
+      top: 50%;
+      left: -10%;
+      animation: drift-4 38s ease-in-out infinite alternate;
+    }
+
+    /* Blue blob */
+    .blob--blue {
+      width: 650px;
+      height: 650px;
+      background: #304FFE;
+      opacity: 0.5;
+      top: -15%;
+      right: 20%;
+      animation: drift-5 30s ease-in-out infinite alternate;
+    }
+
+    /* Each blob drifts on a unique path */
+    @keyframes drift-1 {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      25% {
+        transform: translate(120px, 80px) scale(1.1);
+      }
+      50% {
+        transform: translate(-60px, 200px) scale(0.95);
+      }
+      75% {
+        transform: translate(180px, 120px) scale(1.05);
+      }
+      100% {
+        transform: translate(60px, 300px) scale(1.15);
+      }
+    }
+
+    @keyframes drift-2 {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      20% {
+        transform: translate(-150px, 60px) scale(1.08);
+      }
+      40% {
+        transform: translate(-80px, -120px) scale(0.92);
+      }
+      60% {
+        transform: translate(-200px, 100px) scale(1.12);
+      }
+      80% {
+        transform: translate(-40px, -80px) scale(0.97);
+      }
+      100% {
+        transform: translate(-180px, 160px) scale(1.05);
+      }
+    }
+
+    @keyframes drift-3 {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(100px, -150px) scale(1.15);
+      }
+      66% {
+        transform: translate(-120px, -80px) scale(0.9);
+      }
+      100% {
+        transform: translate(60px, -200px) scale(1.1);
+      }
+    }
+
+    @keyframes drift-4 {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      20% {
+        transform: translate(200px, -40px) scale(1.1);
+      }
+      40% {
+        transform: translate(100px, -180px) scale(0.95);
+      }
+      60% {
+        transform: translate(280px, -100px) scale(1.08);
+      }
+      80% {
+        transform: translate(60px, -220px) scale(1.02);
+      }
+      100% {
+        transform: translate(220px, -60px) scale(0.93);
+      }
+    }
+
+    @keyframes drift-5 {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      30% {
+        transform: translate(-100px, 180px) scale(1.12);
+      }
+      60% {
+        transform: translate(80px, 100px) scale(0.88);
+      }
+      100% {
+        transform: translate(-60px, 250px) scale(1.06);
+      }
+    }
+
+    /* Content layer */
+    .hero__content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero__logo {
+      display: block;
+      height: 140px;
+      width: auto;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero__title {
+      font-size: clamp(36px, 8vw, 96px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+    }
+
+    .hero__subtitle {
+      font-size: clamp(14px, 2.5vw, 24px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.1em;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .blob {
+        filter: blur(80px);
+      }
+
+      .blob--magenta {
+        width: 300px;
+        height: 300px;
+      }
+
+      .blob--purple {
+        width: 350px;
+        height: 350px;
+      }
+
+      .blob--red {
+        width: 250px;
+        height: 250px;
+      }
+
+      .blob--yellow {
+        width: 280px;
+        height: 280px;
+      }
+
+      .blob--blue {
+        width: 320px;
+        height: 320px;
+      }
+
+      .hero__logo {
+        height: 80px;
+        margin-bottom: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="mesh">
+      <div class="blob blob--magenta"></div>
+      <div class="blob blob--purple"></div>
+      <div class="blob blob--red"></div>
+      <div class="blob blob--yellow"></div>
+      <div class="blob blob--blue"></div>
+    </div>
+
+    <div class="hero__content">
+      <img
+        src="../assets/images/logo-for-black-bg.png"
+        alt="Designship"
+        class="hero__logo"
+      >
+      <h1 class="hero__title">産業の未来を拓く</h1>
+      <p class="hero__subtitle">一般社団法人デザインシップ</p>
+    </div>
+  </section>
+</body>
+</html>

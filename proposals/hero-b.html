@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero B - Particle Nebula</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      overflow: hidden;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glow-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(
+        ellipse 50% 50% at 50% 48%,
+        rgba(123, 47, 190, 0.12) 0%,
+        rgba(233, 30, 140, 0.06) 30%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      height: 140px;
+      margin-bottom: 32px;
+      pointer-events: auto;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.12em;
+    }
+
+    @media (max-width: 640px) {
+      .hero-logo {
+        height: 90px;
+        margin-bottom: 24px;
+      }
+      .hero-title {
+        font-size: 1.5rem;
+      }
+      .hero-subtitle {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <canvas id="particleCanvas"></canvas>
+    <div class="glow-overlay"></div>
+    <div class="hero-content">
+      <img src="../assets/images/logo-for-black-bg.png" alt="Designship" class="hero-logo">
+      <div class="hero-title">産業の未来を拓く</div>
+      <div class="hero-subtitle">一般社団法人デザインシップ</div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const BRAND_COLORS = [
+      [233, 30, 140],   // #E91E8C
+      [123, 47, 190],   // #7B2FBE
+      [255, 23, 68],    // #FF1744
+      [255, 214, 0],    // #FFD600
+      [48, 79, 254],    // #304FFE
+    ];
+
+    let W, H, particles, PARTICLE_COUNT;
+
+    function isMobile() {
+      return window.innerWidth <= 640;
+    }
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function createParticle() {
+      const isStar = Math.random() < 0.08;
+      const color = BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)];
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: isStar ? 2 + Math.random() * 4 : 0.5 + Math.random() * 2.5,
+        opacity: isStar ? 0.6 + Math.random() * 0.2 : 0.2 + Math.random() * 0.6,
+        color: color,
+        isStar: isStar,
+      };
+    }
+
+    function init() {
+      resize();
+      PARTICLE_COUNT = isMobile() ? 150 : 320;
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function drawConnections() {
+      const maxDist = 90;
+      const maxDistSq = maxDist * maxDist;
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < maxDistSq) {
+            const alpha = (1 - distSq / maxDistSq) * 0.08;
+            ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function update() {
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -10) p.x = W + 10;
+        else if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10;
+        else if (p.y > H + 10) p.y = -10;
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      drawConnections();
+
+      for (const p of particles) {
+        const [r, g, b] = p.color;
+        if (p.isStar) {
+          // Glow for star particles
+          const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3);
+          grad.addColorStop(0, `rgba(${r},${g},${b},${p.opacity})`);
+          grad.addColorStop(0.4, `rgba(${r},${g},${b},${p.opacity * 0.3})`);
+          grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = `rgba(${r},${g},${b},${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    init();
+    loop();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        init();
+      }, 200);
+    });
+  </script>
+</body>
+</html>

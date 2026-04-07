@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hero Visual Proposals</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #050505; color: #fff; font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
+    h1 { font-size: 1.1rem; font-weight: 400; letter-spacing: .1em; margin-bottom: 1rem; opacity: .5; }
+    p { font-size: .85rem; color: #666; margin-bottom: 2.5rem; max-width: 500px; text-align: center; line-height: 1.7; }
+    .grid { display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 520px; }
+    a { display: block; padding: 1.5rem 2rem; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; color: #fff; text-decoration: none; transition: all .3s ease; background: rgba(255,255,255,.02); }
+    a:hover { border-color: #E91E8C; background: rgba(233,30,140,.06); transform: translateY(-2px); }
+    .label { font-size: 1.1rem; font-weight: 600; margin-bottom: .3rem; }
+    .desc { font-size: .8rem; opacity: .45; line-height: 1.5; }
+    .tag { display: inline-block; font-size: .65rem; padding: 2px 8px; border-radius: 3px; background: rgba(255,255,255,.08); margin-top: .5rem; opacity: .5; }
+  </style>
+</head>
+<body>
+  <h1>Hero Visual Proposals</h1>
+  <p>メインビジュアルの背景エフェクト5案。それぞれクリックして確認してください。</p>
+  <div class="grid">
+    <a href="hero-a.html">
+      <div class="label">A. メッシュグラデーション</div>
+      <div class="desc">ゆっくり変形するグラデーションブロブ。Linear / Stripe風。</div>
+      <span class="tag">CSS only</span>
+    </a>
+    <a href="hero-b.html">
+      <div class="label">B. パーティクル / 星雲</div>
+      <div class="desc">微細な粒子が浮遊する宇宙的表現。Vercel風。</div>
+      <span class="tag">Canvas 2D</span>
+    </a>
+    <a href="hero-c.html">
+      <div class="label">C. ノイズディストーション</div>
+      <div class="desc">液体のように流れる有機的ノイズパターン。マウス追従あり。</div>
+      <span class="tag">Three.js / WebGL</span>
+    </a>
+    <a href="hero-d.html">
+      <div class="label">D. フルイドシミュレーション</div>
+      <div class="desc">水に落としたインクのように混ざり合う流体表現。</div>
+      <span class="tag">WebGL Shader</span>
+    </a>
+    <a href="hero-e.html">
+      <div class="label">E. キネティックタイポグラフィ</div>
+      <div class="desc">文字自体が光り、色が波のように流れる映画的表現。</div>
+      <span class="tag">GSAP</span>
+    </a>
+  </div>
+</body>
+</html>

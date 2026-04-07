@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一般社団法人デザインシップ</title>
+<meta name="description" content="一般社団法人デザインシップ。次世代の産業に貢献するデザイン人材の輩出。日本最大級のデザインカンファレンスを主催。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #888888;
+  --dark-gray: #1a1a1a;
+  --magenta: #E91E8C;
+  --purple: #7B2FBE;
+  --red: #FF1744;
+  --yellow: #FFD600;
+  --blue: #304FFE;
+  --ease-out-expo: cubic-bezier(.19, 1, .22, 1);
+  --duration: 1.3s;
+}
+
+html { scroll-behavior: smooth; background: var(--black); overflow-x: hidden; }
+
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+::selection { background: var(--magenta); color: var(--white); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ---- LOADER ---- */
+.loader {
+  position: fixed; inset: 0;
+  background: var(--black);
+  z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s;
+}
+.loader.hidden { opacity: 0; visibility: hidden; }
+.loader-logo { width: 240px; margin-bottom: 40px; }
+.loader-bar-track { width: 200px; height: 2px; background: rgba(255,255,255,0.1); overflow: hidden; border-radius: 1px; }
+.loader-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--magenta), var(--purple), var(--blue)); transition: width 0.2s ease; }
+
+/* ---- HEADER ---- */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 24px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  mix-blend-mode: difference;
+  transition: padding 0.4s var(--ease-out-expo);
+}
+.header-logo img { height: 28px; width: auto; }
+.header-nav { display: flex; align-items: center; gap: 32px; }
+.header-nav a { font-size: 13px; font-weight: 500; letter-spacing: 0.04em; opacity: 0.7; transition: opacity 0.4s ease; }
+.header-nav a:hover { opacity: 1; }
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.menu-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: all 0.3s var(--ease-out-expo); }
+
+@media (max-width: 768px) {
+  .header { padding: 16px 20px; }
+  .header-nav { display: none; }
+  .menu-toggle { display: block; }
+}
+
+.mobile-menu {
+  position: fixed; inset: 0;
+  background: var(--black); z-index: 99;
+  display: flex; flex-direction: column; justify-content: center; padding: 80px 40px;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s;
+}
+.mobile-menu.open { opacity: 1; visibility: visible; }
+.mobile-menu a { display: block; font-size: 28px; font-weight: 700; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+/* ---- COMMON SECTION STYLES ---- */
+.section-pad {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 140px 40px;
+}
+
+.section-label {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--magenta);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+
+.section-desc {
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 2;
+  max-width: 720px;
+}
+
+/* ---- REVEAL ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--duration) var(--ease-out-expo), transform var(--duration) var(--ease-out-expo);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(123,47,190,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(233,30,140,0.08) 0%, transparent 50%);
+}
+
+/* Paint splatters */
+.splatter-layer {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
+}
+.splat-svg {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.25s ease, transform 0.4s cubic-bezier(.2,.7,.3,1);
+}
+.hero.loaded .splat-svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.splat-svg:nth-child(1)  { left: -2%;  top: -5%;  width: 32vw; transition-delay: 0.15s; transform-origin: 60% 70%; }
+.splat-svg:nth-child(2)  { right: -4%; top: -3%;  width: 28vw; transition-delay: 0.28s; transform-origin: 40% 65%; }
+.splat-svg:nth-child(3)  { left: -1%;  bottom: -8%; width: 26vw; transition-delay: 0.38s; transform-origin: 55% 30%; }
+.splat-svg:nth-child(4)  { right: -3%; bottom: -5%; width: 30vw; transition-delay: 0.22s; transform-origin: 45% 35%; }
+.splat-svg:nth-child(5)  { left: 15%;  top: -6%;  width: 20vw; transition-delay: 0.45s; transform-origin: 50% 80%; }
+.splat-svg:nth-child(6)  { right: 12%; bottom: -4%; width: 22vw; transition-delay: 0.35s; transform-origin: 50% 20%; }
+.splat-svg:nth-child(7)  { left: -3%;  top: 30%;  width: 18vw; transition-delay: 0.5s; transform-origin: 80% 50%; }
+.splat-svg:nth-child(8)  { right: -2%; top: 35%;  width: 16vw; transition-delay: 0.42s; transform-origin: 20% 50%; }
+.splat-svg:nth-child(9)  { left: 35%;  top: -4%;  width: 14vw; transition-delay: 0.55s; transform-origin: 50% 90%; }
+.splat-svg:nth-child(10) { right: 30%; bottom: -3%; width: 15vw; transition-delay: 0.48s; transform-origin: 50% 10%; }
+
+@media (max-width: 768px) {
+  .splat-svg { width: 40vw !important; }
+  .splat-svg:nth-child(n+7) { display: none; }
+}
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 0 40px; }
+.hero-logo { margin-bottom: 48px; opacity: 0; transform: scale(0.9); transition: opacity 1s ease 0.3s, transform 1s var(--ease-out-expo) 0.3s; }
+.hero.loaded .hero-logo { opacity: 1; transform: scale(1); }
+.hero-logo img { height: 140px; width: auto; margin: 0 auto; }
+@media (max-width: 768px) { .hero-logo img { height: 90px; } }
+
+.hero-tagline {
+  font-size: clamp(36px, 7vw, 96px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.hero-tagline .line { display: block; overflow: hidden; }
+.hero-tagline .line span { display: inline-block; transform: translateY(120%); transition: transform 1.4s var(--ease-out-expo); }
+.hero.loaded .hero-tagline .line span { transform: translateY(0); }
+
+.hero-sub {
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-weight: 300;
+  opacity: 0;
+  transition: opacity 1s ease 0.7s;
+  color: var(--gray);
+}
+.hero.loaded .hero-sub { opacity: 1; }
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0; animation: fadeIn 1s ease 1.2s forwards;
+}
+.hero-scroll span { font-size: 11px; color: var(--gray); }
+.scroll-line { width: 1px; height: 50px; background: rgba(255,255,255,0.2); position: relative; overflow: hidden; }
+.scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: var(--white); animation: scrollDown 2s ease infinite; }
+@keyframes scrollDown { 0% { top: -100%; } 100% { top: 100%; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- MISSION ---- */
+.mission { padding: 0; }
+.mission .section-title {
+  font-size: clamp(24px, 3.5vw, 52px);
+}
+.mission .section-title .accent {
+  background: linear-gradient(135deg, var(--magenta), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ---- CONFERENCE ---- */
+.conference-title-block { text-align: center; margin-bottom: 80px; }
+.conference-main-title {
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 12px;
+}
+.conference-main-title .gradient-text {
+  background: linear-gradient(135deg, var(--magenta) 0%, var(--purple) 50%, var(--blue) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.timeline { position: relative; padding: 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.12) 5%, rgba(255,255,255,0.12) 95%, transparent);
+}
+.timeline-item { display: flex; align-items: center; margin-bottom: 60px; position: relative; }
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-item:nth-child(odd) { flex-direction: row; }
+.timeline-item:nth-child(even) { flex-direction: row-reverse; }
+
+.timeline-year { flex: 1; display: flex; align-items: center; justify-content: flex-end; padding-right: 48px; }
+.timeline-item:nth-child(even) .timeline-year { justify-content: flex-start; padding-right: 0; padding-left: 48px; }
+
+.timeline-year-number {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 900; letter-spacing: -0.05em; line-height: 1;
+  color: rgba(255,255,255,0.1);
+  transition: color 0.6s var(--ease-out-expo);
+}
+.timeline-item.visible .timeline-year-number { color: rgba(255,255,255,0.25); }
+
+.timeline-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--dark-gray); border: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0; z-index: 2;
+  transition: all 0.6s var(--ease-out-expo);
+}
+.timeline-item.visible .timeline-dot {
+  background: var(--magenta); border-color: var(--magenta);
+  box-shadow: 0 0 16px rgba(233,30,140,0.4);
+}
+
+.timeline-content { flex: 1; padding-left: 48px; display: flex; align-items: center; gap: 20px; }
+.timeline-item:nth-child(even) .timeline-content { padding-left: 0; padding-right: 48px; flex-direction: row-reverse; text-align: right; }
+
+.timeline-photo {
+  width: 160px; height: 100px; flex-shrink: 0;
+  object-fit: cover; border-radius: 6px; background: var(--dark-gray);
+}
+.timeline-text { flex: 1; }
+.timeline-venue { font-size: clamp(16px, 1.6vw, 22px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.timeline-detail { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.6; margin-bottom: 6px; }
+.timeline-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 3px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+}
+.badge-online { background: rgba(48,79,254,0.15); color: var(--blue); border: 1px solid rgba(48,79,254,0.3); }
+.badge-offline { background: rgba(233,30,140,0.1); color: var(--magenta); border: 1px solid rgba(233,30,140,0.2); }
+
+.timeline-link { display: inline-block; margin-left: 8px; font-size: 12px; font-weight: 500; color: var(--magenta); transition: opacity 0.3s; }
+.timeline-link:hover { opacity: 0.7; }
+
+@media (max-width: 900px) {
+  .timeline::before { left: 16px; }
+  .timeline-item, .timeline-item:nth-child(even) { flex-direction: column; align-items: flex-start; padding-left: 44px; }
+  .timeline-year, .timeline-item:nth-child(even) .timeline-year { justify-content: flex-start; padding: 0; margin-bottom: 4px; }
+  .timeline-content, .timeline-item:nth-child(even) .timeline-content { padding: 0; flex-direction: column; align-items: flex-start; text-align: left; }
+  .timeline-dot { position: absolute; left: -22px; top: 14px; }
+  .timeline-photo { width: 120px; height: 75px; }
+}
+
+/* ---- BUSINESS AREAS ---- */
+.biz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 48px;
+}
+
+.biz-card {
+  position: relative;
+  padding: 44px;
+  min-height: 280px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: var(--dark-gray);
+  overflow: hidden;
+  transition: background 0.5s ease;
+}
+.biz-card:hover { background: #222; }
+
+.biz-number {
+  position: absolute; top: 20px; left: 28px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: rgba(255,255,255,0.15);
+}
+.biz-name { font-size: clamp(18px, 1.8vw, 26px); font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+.biz-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.9; font-weight: 300; margin-bottom: 16px; }
+.biz-link { display: inline-block; font-size: 13px; font-weight: 500; color: var(--magenta); transition: opacity 0.3s; }
+.biz-link:hover { opacity: 0.7; }
+
+@media (max-width: 768px) {
+  .biz-grid { grid-template-columns: 1fr; }
+  .biz-card { padding: 32px 24px; min-height: 220px; }
+}
+
+/* ---- DIRECTORS ---- */
+.directors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin-top: 48px;
+}
+.director-photo { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background: var(--dark-gray); }
+.director-role { font-size: 12px; color: var(--magenta); font-weight: 500; margin-bottom: 8px; }
+.director-name { font-size: clamp(20px, 2vw, 28px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
+.director-bio { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.55); font-weight: 300; }
+
+@media (max-width: 900px) {
+  .directors-grid { grid-template-columns: 1fr; gap: 60px; }
+  .director-photo { width: 200px; }
+}
+
+/* ---- COMPANY INFO ---- */
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin-top: 48px;
+}
+.company-item-label { font-size: 12px; color: var(--gray); font-weight: 500; margin-bottom: 10px; letter-spacing: 0.04em; }
+.company-item-value { font-size: 15px; font-weight: 400; line-height: 1.8; color: rgba(255,255,255,0.85); }
+
+@media (max-width: 768px) {
+  .company-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .company-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- CONTACT ---- */
+.contact-section { text-align: center; position: relative; }
+.contact-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(233,30,140,0.05) 0%, transparent 70%);
+}
+.contact-email {
+  display: inline-block;
+  font-size: clamp(16px, 2vw, 26px); font-weight: 600;
+  padding: 16px 48px;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 60px;
+  transition: all 0.4s var(--ease-out-expo);
+  margin-top: 16px;
+}
+.contact-email:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+
+/* ---- FOOTER ---- */
+.footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 60px 40px 40px;
+  max-width: 1200px; margin: 0 auto;
+}
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; flex-wrap: wrap; gap: 40px; }
+.footer-logo img { height: 24px; margin-bottom: 12px; }
+.footer-corp-name { font-size: 13px; color: var(--gray); font-weight: 300; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-link { font-size: 13px; color: var(--gray); font-weight: 400; transition: color 0.3s; }
+.footer-link:hover { color: var(--white); }
+.footer-bottom { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* ---- GRADIENT LINE ---- */
+.gradient-line {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 101;
+  height: 2px;
+  background: linear-gradient(90deg, var(--magenta), var(--purple), var(--blue), var(--yellow), var(--red));
+  background-size: 200% 100%;
+  animation: gradientShift 6s ease infinite;
+}
+@keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <img class="loader-logo" id="loaderGif" src="../assets/images/logo-animation.gif" alt="Designship">
+  <div class="loader-bar-track"><div class="loader-bar" id="loaderBar"></div></div>
+</div>
+
+<div class="gradient-line"></div>
+
+<!-- Header -->
+<header class="header" id="header">
+  <a href="#hero" class="header-logo"><img src="../assets/images/logo-white.png" alt="Designship"></a>
+  <nav class="header-nav">
+    <a href="#mission">ミッション</a>
+    <a href="#conference">カンファレンス</a>
+    <a href="#businesses">事業領域</a>
+    <a href="#directors">役員</a>
+    <a href="#company">法人情報</a>
+    <a href="#contact">お問い合わせ</a>
+  </nav>
+  <button class="menu-toggle" id="menuToggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#mission" class="mobile-menu-link">ミッション</a>
+  <a href="#conference" class="mobile-menu-link">カンファレンス</a>
+  <a href="#businesses" class="mobile-menu-link">事業領域</a>
+  <a href="#directors" class="mobile-menu-link">役員</a>
+  <a href="#company" class="mobile-menu-link">法人情報</a>
+  <a href="#contact" class="mobile-menu-link">お問い合わせ</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-gradient"></div>
+
+  <!-- Paint splatters — Splatoon-style ink splashes -->
+  <div class="splatter-layer">
+
+    <!-- 1: Magenta — top-left big splash -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M250 180c35-5 70 10 90 40s25 65 10 95c-12 25-35 42-62 48-8 2-12 8-10 18l8 55c2 14-2 22-10 24s-16-4-18-18l-10-58c-2-12-8-16-18-14-30 6-60-5-82-30s-30-58-22-90c10-38 45-65 85-72zM195 140c-8-25-2-50 15-62s40-8 48 15 2 50-15 62-38 10-48-15zM350 150c5-20 22-32 38-28s24 22 18 42-22 32-38 28-24-22-18-42zM140 320c-18 5-35-5-40-22s4-35 22-40 35 5 40 22-4 35-22 40zM370 300c12-8 28-5 35 8s4 28-8 35-28 5-35-8-4-28 8-35zM310 120c-5-15 2-30 15-35s30 2 35 15-2 30-15 35-30-2-35-15zM180 380c8 4 12 15 8 24s-15 12-24 8-12-15-8-24 15-12 24-8zM280 400c6 3 8 10 5 16s-10 8-16 5-8-10-5-16 10-8 16-5zM130 200c-5-3-7-10-4-15s10-7 15-4 7 10 4 15-10 7-15 4zM380 220c4 2 5 8 3 12s-8 5-12 3-5-8-3-12 8-5 12-3z" fill="#E91E8C"/></svg>
+
+    <!-- 2: Purple — top-right splash -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M260 170c30-8 65 2 88 28s32 60 22 92c-8 28-28 48-55 58-10 4-14 12-10 22l15 52c4 14 0 24-10 28s-20-2-24-16l-18-55c-4-12-12-16-22-12-32 10-65 2-88-20s-32-55-25-88c8-42 52-72 92-82zM200 130c-12-22-8-48 10-62s42-10 52 12 8 48-10 62-40 10-52-12zM360 140c8-18 28-26 45-18s24 28 16 46-28 26-45 18-24-28-16-46zM150 330c-15 8-35 4-44-12s-4-35 12-44 35-4 44 12 4 35-12 44zM380 310c10-10 26-10 36 0s10 26 0 36-26 10-36 0-10-26 0-36zM320 105c-3-12 4-25 16-28s25 4 28 16-4 25-16 28-25-4-28-16zM165 400c6 6 6 15 0 22s-15 6-22 0-6-15 0-22 15-6 22 0zM290 420c4 4 4 10 0 14s-10 4-14 0-4-10 0-14 10-4 14 0zM120 220c-4-2-5-7-3-10s7-5 10-3 5 7 3 10-7 5-10 3zM400 250c3 1 4 5 2 8s-5 4-8 2-4-5-2-8 5-4 8-2z" fill="#7B2FBE"/></svg>
+
+    <!-- 3: Red — bottom-left splash -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M240 200c38 0 72 18 90 48s22 68 5 98c-14 24-38 40-66 42-10 1-16 8-15 18l4 58c1 14-5 24-14 24s-18-8-18-22l-5-60c-1-12-8-18-18-17-32 2-62-12-82-38s-24-60-14-90c14-40 55-62 95-62zM185 155c-14-20-12-48 5-65s42-18 56 2 12 48-5 65-42 18-56-2zM355 175c10-16 30-20 45-10s18 30 8 46-30 20-45 10-18-30-8-46zM130 350c-18 2-34-10-36-28s10-34 28-36 34 10 36 28-10 34-28 36zM375 340c12-5 26 0 32 12s0 26-12 32-26 0-32-12 0-26 12-32zM300 140c-2-14 8-26 22-28s26 8 28 22-8 26-22 28-26-8-28-22zM170 415c7 2 11 10 9 18s-10 11-18 9-11-10-9-18 10-11 18-9zM275 435c5 1 7 7 6 12s-7 7-12 6-7-7-6-12 7-7 12-6zM115 245c-3-4-2-10 2-13s10-2 13 2 2 10-2 13-10 2-13-2zM395 270c2 3 1 7-2 9s-7 1-9-2-1-7 2-9 7-1 9 2z" fill="#FF1744"/></svg>
+
+    <!-- 4: Yellow — bottom-right splash -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M255 185c32-10 68 0 92 25s34 58 25 90c-8 28-25 50-52 60-10 3-15 10-12 20l12 55c3 14-2 25-12 28s-20-4-22-18l-14-58c-3-12-10-16-20-14-32 8-64 0-86-22s-30-55-22-88c12-42 50-68 88-80zM198 140c-10-24-4-50 14-64s44-12 54 12 4 50-14 64-44 12-54-12zM365 155c6-18 25-30 44-24s28 25 22 44-25 30-44 24-28-26-22-44zM138 340c-16 6-34-2-40-18s2-34 18-40 34 2 40 18-2 34-18 40zM382 320c10-8 25-6 34 5s6 25-5 34-25 6-34-5-6-26 5-34zM305 118c-4-14 5-28 18-32s28 5 32 18-5 28-18 32-28-4-32-18zM175 395c8 3 12 12 9 20s-12 12-20 9-12-12-9-20 12-12 20-9zM285 415c5 2 8 8 6 14s-8 8-14 6-8-8-6-14 8-8 14-6zM125 215c-4-2-6-8-4-12s8-6 12-4 6 8 4 12-8 6-12 4zM392 240c3 2 4 6 2 9s-6 4-9 2-4-6-2-9 6-4 9-2z" fill="#FFD600"/></svg>
+
+    <!-- 5: Blue — top-center splash -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M250 175c28-12 62-6 85 15s32 52 25 82c-6 24-22 44-45 55-8 4-12 12-8 22l14 48c5 12 0 22-10 26s-18-2-22-14l-16-50c-4-12-12-14-20-10-28 14-60 10-82-10s-30-48-24-78c8-38 42-65 78-78zM195 135c-8-22-2-45 16-55s40-5 48 18 2 45-16 55-40 4-48-18zM345 150c5-15 20-24 36-20s24 20 20 36-20 24-36 20-24-20-20-36zM145 310c-14 8-32 3-40-12s-3-32 12-40 32-3 40 12 3 32-12 40zM365 295c10-6 22-3 28 8s3 22-8 28-22 3-28-8-3-22 8-28zM295 115c-3-12 5-22 16-25s22 5 25 16-5 22-16 25-22-4-25-16zM180 365c5 5 5 14 0 20s-14 5-20 0-5-14 0-20 14-5 20 0zM270 385c4 3 4 9 0 12s-9 4-12 0-4-9 0-12 9-4 12 0z" fill="#304FFE"/></svg>
+
+    <!-- 6: Magenta — bottom-center-right -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M245 190c30-6 60 5 80 28s28 55 18 85c-8 24-25 42-48 50-8 3-12 10-10 18l8 45c2 12-2 20-10 22s-16-4-18-16l-10-48c-2-10-8-14-16-12-28 6-55 0-75-18s-28-45-22-75c8-35 40-62 72-72zM198 150c-6-18 0-38 15-48s35-8 42 10 0 38-15 48-35 8-42-10zM340 160c4-14 18-22 32-18s22 18 18 32-18 22-32 18-22-18-18-32zM148 315c-14 4-28-3-32-16s3-28 16-32 28 3 32 16-3 28-16 32zM355 305c8-6 20-4 26 5s4 20-5 26-20 4-26-5-4-20 5-26zM290 125c-2-10 4-20 14-22s20 4 22 14-4 20-14 22-20-4-22-14zM175 375c6 2 9 9 7 15s-9 9-15 7-9-9-7-15 9-9 15-7z" fill="#E91E8C"/></svg>
+
+    <!-- 7: Purple — left-center -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M240 195c25-8 55-2 75 18s28 48 20 75c-6 22-20 38-40 45-8 3-10 10-8 18l8 40c2 10-2 18-10 20s-14-4-16-14l-8-42c-2-10-8-12-16-10-25 8-52 2-70-15s-25-42-18-68c8-32 38-55 65-62zM195 155c-5-15 2-32 14-40s28-5 34 10 0 32-14 40-28 5-34-10zM330 168c4-12 16-18 28-14s18 16 14 28-16 18-28 14-18-16-14-28zM145 318c-12 3-24-4-27-16s4-24 16-27 24 4 27 16-4 24-16 27zM350 300c8-5 18-2 22 6s2 18-6 22-18 2-22-6-2-18 6-22z" fill="#7B2FBE"/></svg>
+
+    <!-- 8: Red — right-center -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M255 200c22-10 50-5 68 12s25 42 18 65c-5 18-18 34-35 40-6 2-8 8-6 15l6 35c2 10-2 16-8 18s-12-3-14-12l-8-38c-2-8-6-12-14-10-22 6-45 0-60-14s-22-35-16-58c8-28 32-45 55-52zM202 162c-4-12 2-25 12-32s24-5 28 8 0 25-12 32-24 5-28-8zM338 175c3-10 14-16 24-12s16 14 12 24-14 16-24 12-16-14-12-24zM155 310c-10 3-20-3-22-14s3-20 14-22 20 3 22 14-3 20-14 22zM348 298c6-4 15-2 18 5s2 15-5 18-15 2-18-5-2-15 5-18z" fill="#FF1744"/></svg>
+
+    <!-- 9: Yellow — top accent -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M248 200c20-5 42 2 56 18s18 38 12 58c-5 16-16 30-30 35-5 2-8 6-6 12l5 30c1 8-2 14-8 16s-12-3-13-10l-6-32c-1-8-5-10-12-8-20 5-40 0-54-14s-18-32-13-52c6-25 28-42 48-48zM200 165c-3-10 2-20 10-24s20-2 24 8 0 20-10 24-20 2-24-8zM328 180c2-8 10-12 18-10s12 10 10 18-10 12-18 10-12-10-10-18zM158 308c-8 2-16-2-18-10s2-16 10-18 16 2 18 10-2 16-10 18z" fill="#FFD600"/></svg>
+
+    <!-- 10: Blue — bottom accent -->
+    <svg class="splat-svg" viewBox="0 0 500 500" fill="none"><path d="M252 195c22-8 48 0 64 18s22 42 15 65c-5 18-18 32-35 38-6 2-8 8-6 14l6 32c2 8-1 14-6 16s-12-2-14-10l-8-34c-2-8-6-10-12-8-22 5-45-2-58-16s-18-35-12-55c8-28 30-48 52-55zM205 158c-3-10 3-22 12-26s22 0 26 10-2 22-12 26-22 0-26-10zM335 172c3-8 12-14 20-10s14 12 10 20-12 14-20 10-14-12-10-20zM155 305c-8 2-16-3-18-12s3-16 12-18 16 3 18 12-3 16-12 18z" fill="#304FFE"/></svg>
+
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-logo"><img src="../assets/images/logo-for-black-bg.png" alt="Designship"></div>
+    <h1 class="hero-tagline">
+      <span class="line"><span>産業の未来を拓く</span></span>
+    </h1>
+    <p class="hero-sub">一般社団法人デザインシップ</p>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ===== MISSION ===== -->
+<section class="mission" id="mission">
+  <div class="section-pad">
+    <p class="section-label reveal">ミッション</p>
+    <h2 class="section-title reveal delay-1"><span class="accent">次世代の産業</span>に貢献する<br>デザイン人材の輩出。</h2>
+    <p class="section-desc reveal delay-2">
+      産業においてデザインの対象範囲や役割が拡張し、かつてないほどに重要視される世の流れに沿って、次世代におけるあるべきデザイン人材像を構想し、国民の創造性向上に寄与することを目的としています。2018年の設立以来、カンファレンス、教育、行政支援、企業研修、フリーランスコレクティブなど多角的な事業を展開しています。
+    </p>
+  </div>
+</section>
+
+<!-- ===== CONFERENCE ===== -->
+<section class="conference" id="conference" style="min-height:auto;">
+  <div class="section-pad" style="max-width:1400px;">
+    <div class="conference-title-block">
+      <p class="section-label reveal">カンファレンス</p>
+      <h2 class="conference-main-title reveal delay-1"><span class="gradient-text">Designship</span></h2>
+      <p class="section-desc reveal delay-2" style="margin:0 auto;">日本最大級のデザインカンファレンス — 2018年より毎年開催</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2018</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2018.jpg" alt="Designship 2018" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">東京ミッドタウン日比谷</h3>
+            <p class="timeline-detail">記念すべき第1回開催。</p>
+            <span class="timeline-badge badge-offline">オフライン</span>
+            <a href="https://design-ship.jp/2018" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2019</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2019.jpg" alt="Designship 2019" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">東京国際フォーラム</h3>
+            <p class="timeline-detail">規模を拡大し、より多くのデザイナーが集結。</p>
+            <span class="timeline-badge badge-offline">オフライン</span>
+            <a href="https://design-ship.jp/2019" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2020</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2020.jpg" alt="Designship 2020" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">オンライン開催</h3>
+            <p class="timeline-detail">デジタルの力でコミュニティをつなぐ。</p>
+            <span class="timeline-badge badge-online">オンライン</span>
+            <a href="https://design-ship.jp/2020" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2021</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2021.jpg" alt="Designship 2021" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">オンライン開催</h3>
+            <p class="timeline-detail">新しい体験設計に挑戦。</p>
+            <span class="timeline-badge badge-online">オンライン</span>
+            <a href="https://design-ship.jp/2021" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2022</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2022.jpg" alt="Designship 2022" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">パナソニックセンター東京</h3>
+            <p class="timeline-detail">リアル会場に回帰。ハイブリッド形式で開催。</p>
+            <span class="timeline-badge badge-offline">ハイブリッド</span>
+            <a href="https://design-ship.jp/2022" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2023</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2023.jpg" alt="Designship 2023" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">ヒカリエホール</h3>
+            <p class="timeline-detail">渋谷のクリエイティブの中心地でハイブリッド開催。</p>
+            <span class="timeline-badge badge-offline">ハイブリッド</span>
+            <a href="https://design-ship.jp/2023" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2024</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2024.jpg" alt="Designship 2024" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">東京ミッドタウン</h3>
+            <p class="timeline-detail">60団体・80名以上のトップデザイナーが集結。</p>
+            <span class="timeline-badge badge-offline">オフライン</span>
+            <a href="https://design-ship.jp/2024" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2025</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <img src="../assets/images/conf-2025.jpg" alt="Designship 2025" class="timeline-photo" loading="lazy">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">東京ミッドタウン</h3>
+            <p class="timeline-detail">8年目を迎え、さらなる進化へ。</p>
+            <span class="timeline-badge badge-offline">オフライン</span>
+            <a href="https://design-ship.jp/2025" class="timeline-link" target="_blank" rel="noopener">詳細 →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-year"><div class="timeline-year-number">2026</div></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-text">
+            <h3 class="timeline-venue">Designship 2026</h3>
+            <p class="timeline-detail">次回開催に向けて始動。スポンサー募集中。</p>
+            <a href="https://design-ship.jp/2026/sponsor" class="timeline-link" target="_blank" rel="noopener">スポンサー情報 →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== BUSINESSES ===== -->
+<section id="businesses" style="min-height:auto;">
+  <div class="section-pad" style="max-width:1400px;">
+    <p class="section-label reveal">事業領域</p>
+    <h2 class="section-title reveal delay-1">運営事業</h2>
+    <p class="section-desc reveal delay-2">デザインを軸にした8つの事業を展開しています。</p>
+
+    <div class="biz-grid">
+
+      <div class="biz-card reveal">
+        <span class="biz-number">01</span>
+        <h3 class="biz-name">デザインカンファレンス</h3>
+        <p class="biz-desc">2018年より毎年開催する日本最大級のデザインカンファレンス。最前線で活躍するデザイナーが登壇し、デザインの現在と未来を共有する年に一度の祭典。</p>
+        <a href="https://design-ship.jp/" class="biz-link" target="_blank" rel="noopener">詳細をみる →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">02</span>
+        <h3 class="biz-name">Designship Do</h3>
+        <p class="biz-desc">「Design × Business × Leadership」をテーマにした実戦型デザインスクール。経済産業省の提唱する「高度デザイン人材」の育成を目的とした教育プログラム。</p>
+        <a href="https://do.design-ship.jp/" class="biz-link" target="_blank" rel="noopener">詳細をみる →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">03</span>
+        <h3 class="biz-name">オンライン配信支援</h3>
+        <p class="biz-desc">カンファレンス運営で培った高品質なオンライン配信技術を提供。Goodpatch、弁護士ドットコム、日本デザイン振興会など多数の配信実績。</p>
+        <a href="https://corp.design-ship.jp/streaming" class="biz-link" target="_blank" rel="noopener">詳細をみる →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">04</span>
+        <h3 class="biz-name">Dialogue</h3>
+        <p class="biz-desc">グッドデザイン賞とのコラボレーションによるトーク番組。デザインの深層に迫る対話を通じて、新たな視座を提供。</p>
+        <a href="https://dialogue.design-ship.jp/" class="biz-link" target="_blank" rel="noopener">詳細をみる →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">05</span>
+        <h3 class="biz-name">行政向けデザイン支援</h3>
+        <p class="biz-desc">行政機関のデザイン導入を支援。東京都港区「区民にわかりやすい情報発信 デザイン研修」、東京都狛江市「デザイン作成入門研修」など多数の実績。</p>
+        <a href="mailto:gov@design-ship.jp" class="biz-link">gov@design-ship.jp →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">06</span>
+        <h3 class="biz-name">企業向けデザイン研修</h3>
+        <p class="biz-desc">「新規事業開発のためのAI × プロトタイピング研修」をはじめ、企業のデザイン組織力を強化する研修プログラムを提供。</p>
+        <a href="https://training.design-ship.jp/" class="biz-link" target="_blank" rel="noopener">詳細をみる →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">07</span>
+        <h3 class="biz-name">Designship Studio</h3>
+        <p class="biz-desc">トップクラスのフリーランスデザイナーが集うオープン型デザインスタジオ。高品質なデザインリソースを企業に提供。</p>
+        <a href="https://studio.design-ship.jp/" class="biz-link" target="_blank" rel="noopener">詳細をみる →</a>
+      </div>
+
+      <div class="biz-card reveal">
+        <span class="biz-number">08</span>
+        <h3 class="biz-name">デザイン振興事業</h3>
+        <p class="biz-desc">Tokyo Midtown DESIGN TOUCH 2024パートナー、デザイン白書2024制作協力、世界デザイン会議東京2023ストラテジックパートナーなど。</p>
+        <a href="mailto:contact@design-ship.jp" class="biz-link">contact@design-ship.jp →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIRECTORS ===== -->
+<section id="directors" style="min-height:auto; background:var(--dark-gray);">
+  <div class="section-pad">
+    <p class="section-label reveal">役員</p>
+    <h2 class="section-title reveal delay-1">理事紹介</h2>
+
+    <div class="directors-grid">
+
+      <div class="reveal delay-1">
+        <img src="../assets/images/hirono.jpg" alt="広野 萌" class="director-photo" loading="lazy">
+        <p class="director-role">代表理事</p>
+        <h3 class="director-name">広野 萌</h3>
+        <p class="director-bio">ヤフー株式会社にて新規事業企画やモバイルアプリのUX推進を手掛けたのち、2015年に株式会社FOLIOを共同創業。CDO兼プロダクトマネージャーとしてオンライン証券を立ち上げる。2018年に一般社団法人デザインシップを設立。2021年に株式会社フォルテを設立。2021年より内閣官房IT総合戦略室を経てデジタル庁所属。広告電通賞選考委員。</p>
+      </div>
+
+      <div class="reveal delay-2">
+        <img src="../assets/images/hosomi.jpg" alt="細見 沙央梨" class="director-photo" loading="lazy">
+        <p class="director-role">理事</p>
+        <h3 class="director-name">細見 沙央梨</h3>
+        <p class="director-bio">武蔵野美術大学大学院造形構想研究科修士課程修了。ヤフー株式会社にて「Yahoo! JAPANトップページ」のUX設計からデザイン責任者まで担当。2018年に一般社団法人デザインシップを共同創業。3000人規模のカンファレンス運営、「Designship Do」等のブランド統括、地方公共団体デザイン支援事業の立ち上げを実施。デザイン倫理の研究にも取り組む。</p>
+      </div>
+
+      <div class="reveal delay-3">
+        <img src="../assets/images/komatsu.jpg" alt="小松 尚平" class="director-photo" loading="lazy">
+        <p class="director-role">理事</p>
+        <h3 class="director-name">小松 尚平</h3>
+        <p class="director-bio">東京大学ブランドスタジオ、高知大学医学部特任講師、株式会社BiPSEE取締役CPO。2018年に一般社団法人デザインシップを共同創業。「VRうつ病治療システム」「戦災VR」を開発。経済産業省、総務省の研究会に協力。「NHKスペシャル」「PIVOT」等に出演。グッドデザイン賞、日テレイマジナリウムアワードXR部門大賞等受賞。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPANY INFO ===== -->
+<section id="company" style="min-height:auto;">
+  <div class="section-pad">
+    <p class="section-label reveal">法人情報</p>
+    <h2 class="section-title reveal delay-1">法人概要</h2>
+
+    <div class="company-grid reveal delay-2">
+      <div>
+        <p class="company-item-label">法人名</p>
+        <p class="company-item-value">一般社団法人デザインシップ<br>Designship, Inc.</p>
+      </div>
+      <div>
+        <p class="company-item-label">設立</p>
+        <p class="company-item-value">2018年4月2日</p>
+      </div>
+      <div>
+        <p class="company-item-label">代表理事</p>
+        <p class="company-item-value">広野 萌</p>
+      </div>
+      <div>
+        <p class="company-item-label">所在地</p>
+        <p class="company-item-value">〒105-0013<br>東京都港区浜松町2-2-15<br>浜松町ダイヤビル2F</p>
+      </div>
+      <div>
+        <p class="company-item-label">事業内容</p>
+        <p class="company-item-value">デザインカンファレンスの企画・運営 / デザイン教育事業 / オンライン配信支援 / 行政デザイン支援 / 企業デザイン研修 / フリーランスコレクティブ運営 / デザイン振興事業</p>
+      </div>
+      <div>
+        <p class="company-item-label">メール</p>
+        <p class="company-item-value"><a href="mailto:contact@design-ship.jp" style="color:var(--magenta);">contact@design-ship.jp</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact-section" id="contact">
+  <div class="contact-bg"></div>
+  <div class="section-pad" style="text-align:center; position:relative; z-index:1;">
+    <p class="section-label reveal">お問い合わせ</p>
+    <h2 class="section-title reveal delay-1">ご連絡ください</h2>
+    <p class="section-desc reveal delay-2" style="margin:0 auto 32px;">
+      カンファレンスへの登壇・協賛、各種事業へのお問い合わせは<br>下記メールアドレスまでお気軽にご連絡ください。
+    </p>
+    <a href="mailto:contact@design-ship.jp" class="contact-email reveal delay-3">contact@design-ship.jp</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <a href="#hero" class="footer-logo"><img src="../assets/images/logo-white.png" alt="Designship"></a>
+      <p class="footer-corp-name">一般社団法人デザインシップ</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://design-ship.jp/" class="footer-link" target="_blank" rel="noopener">カンファレンス</a>
+      <a href="https://do.design-ship.jp/" class="footer-link" target="_blank" rel="noopener">Designship Do</a>
+      <a href="https://corp.design-ship.jp/streaming" class="footer-link" target="_blank" rel="noopener">配信支援</a>
+      <a href="https://dialogue.design-ship.jp/" class="footer-link" target="_blank" rel="noopener">Dialogue</a>
+      <a href="https://training.design-ship.jp/" class="footer-link" target="_blank" rel="noopener">企業研修</a>
+      <a href="https://studio.design-ship.jp/" class="footer-link" target="_blank" rel="noopener">Studio</a>
+      <a href="/privacy-policy" class="footer-link">プライバシーポリシー</a>
+      <a href="/ticket-policy" class="footer-link">特定商取引法に基づく表記</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; 2018&ndash;2026 Designship, Inc.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // Loader
+  var loaderBar = document.getElementById('loaderBar');
+  var loader = document.getElementById('loader');
+  var loaderGif = document.getElementById('loaderGif');
+  var hero = document.querySelector('.hero');
+  var progress = 0;
+
+  setTimeout(function() {
+    var c = document.createElement('canvas');
+    var ctx = c.getContext('2d');
+    c.width = loaderGif.naturalWidth || 240;
+    c.height = loaderGif.naturalHeight || 240;
+    ctx.drawImage(loaderGif, 0, 0, c.width, c.height);
+    try { loaderGif.src = c.toDataURL(); } catch(e) {}
+  }, 2000);
+
+  function advance() {
+    progress += Math.random() * 35 + 20;
+    if (progress > 100) progress = 100;
+    loaderBar.style.width = progress + '%';
+    if (progress < 100) {
+      setTimeout(advance, 80 + Math.random() * 120);
+    } else {
+      setTimeout(function() {
+        loader.classList.add('hidden');
+        hero.classList.add('loaded');
+        document.body.style.overflow = '';
+
+      }, 300);
+    }
+  }
+
+  document.body.style.overflow = 'hidden';
+  window.addEventListener('load', advance);
+  setTimeout(function() {
+    if (!loader.classList.contains('hidden')) {
+      loader.classList.add('hidden');
+      hero.classList.add('loaded');
+      document.body.style.overflow = '';
+      showSplats();
+    }
+  }, 2200);
+
+  // Mobile menu
+  var menuToggle = document.getElementById('menuToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  var menuOpen = false;
+  menuToggle.addEventListener('click', function() {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    var s = menuToggle.querySelectorAll('span');
+    if (menuOpen) { s[0].style.transform='rotate(45deg) translate(5px,5px)'; s[1].style.opacity='0'; s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+    else { s[0].style.transform=''; s[1].style.opacity=''; s[2].style.transform=''; }
+  });
+  document.querySelectorAll('.mobile-menu-link').forEach(function(l) {
+    l.addEventListener('click', function() {
+      menuOpen = false; mobileMenu.classList.remove('open');
+      var s = menuToggle.querySelectorAll('span');
+      s[0].style.transform=''; s[1].style.opacity=''; s[2].style.transform='';
+    });
+  });
+
+  // Reveal
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { rootMargin: '0px 0px -40px 0px', threshold: 0.05 });
+  document.querySelectorAll('.reveal, .timeline-item').forEach(function(el) { obs.observe(el); });
+
+  // GSAP
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to('.hero-content', {
+    yPercent: 30, opacity: 0, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var t = document.querySelector(this.getAttribute('href'));
+      if (t) window.scrollTo({ top: t.offsetTop, behavior: 'smooth' });
+    });
+  });
+
+  // Header shrink
+  window.addEventListener('scroll', function() {
+    var h = document.getElementById('header');
+    h.style.padding = window.pageYOffset > 100 ? (innerWidth > 768 ? '16px 40px' : '12px 20px') : (innerWidth > 768 ? '24px 40px' : '16px 20px');
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

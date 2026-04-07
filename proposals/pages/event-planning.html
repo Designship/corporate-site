@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>イベント企画支援 — 一般社団法人デザインシップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #888888;
+  --dark-gray: #1a1a1a;
+  --magenta: #E91E8C;
+}
+
+html { scroll-behavior: smooth; background: var(--black); }
+
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.8;
+}
+
+::selection { background: var(--magenta); color: var(--white); }
+a { color: inherit; text-decoration: none; }
+
+/* Particle canvas */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px 24px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.top-bar a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gray);
+  transition: color 0.3s ease;
+}
+.top-bar a:hover { color: var(--white); }
+
+/* Page layout */
+.page-header {
+  position: relative;
+  z-index: 1;
+  padding-top: 80px;
+  text-align: left;
+  margin-bottom: 64px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.page-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.3;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.page-container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+.page-description {
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 2;
+  max-width: 100%;
+  margin: 0 0 0;
+  text-align: left;
+}
+
+.page-hero-img {
+  width: 100%;
+  border-radius: 12px;
+  margin: 32px 0 48px;
+  object-fit: cover;
+  max-height: 400px;
+}
+
+/* Section heading */
+.section-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  border-left: 3px solid #E91E8C;
+  padding-left: 16px;
+}
+
+/* Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 64px;
+}
+
+.card {
+  background: var(--dark-gray);
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.card-title {
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.9;
+}
+
+/* Plans — two equal cards side by side: Light LEFT, Standard RIGHT */
+.plans-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 64px;
+}
+
+.plan-card {
+  background: var(--dark-gray);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 36px;
+}
+
+.plan-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.plan-name {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.plan-features {
+  list-style: none;
+}
+
+.plan-features li {
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.plan-features li:last-child { border-bottom: none; }
+
+.plan-features li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--magenta);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Options */
+.options-list {
+  list-style: none;
+  margin-bottom: 64px;
+}
+
+.options-list li {
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.options-list li:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+
+.option-name { font-weight: 700; }
+.option-desc {
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Contact */
+.contact-block {
+  margin-top: 64px;
+  padding: 48px;
+  background: var(--dark-gray);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.contact-block p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+
+.contact-email {
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 600;
+  color: var(--magenta);
+  transition: opacity 0.3s ease;
+}
+.contact-email:hover { opacity: 0.7; }
+
+@media (max-width: 768px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .plans-grid { grid-template-columns: 1fr; }
+  .card, .plan-card { padding: 24px; }
+  .contact-block { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div class="top-bar">
+  <a href="javascript:history.back()" class="back-link">&larr; 一般社団法人デザインシップ</a>
+</div>
+
+<div class="page-header">
+  <h1 class="page-title">イベント企画支援</h1>
+</div>
+
+<div class="page-container">
+  <p class="page-description">
+    Designshipとコラボイベントをすることで、8年間培ってきた企業・個人とのつながりを含めたアセットの活用が可能です。行政・デザイン団体・既存スポンサー企業とのコラボレーションにより、単独イベントではリーチできない層への訴求や、より深い業界ネットワークへの参入が可能となります。
+  </p>
+  <img src="../../assets/images/biz/img-talk-event.jpg" class="page-hero-img">
+
+  <h2 class="section-heading">コラボレーションのメリット</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3 class="card-title">既存スポンサーとの連携</h3>
+      <p class="card-desc">既存スポンサー企業と合同イベント開催が可能です。業界のリード企業との繋がりを強化し、相互の知見を共有する場を提供します。</p>
+    </div>
+    <div class="card">
+      <h3 class="card-title">強力な集客チャネル</h3>
+      <p class="card-desc">Designship参加者へのメルマガ配信や、公式SNSでの告知・リツイート支援。デザインに熱量の高い層へダイレクトにリーチします。</p>
+    </div>
+  </div>
+
+  <h2 class="section-heading">スポンサーシッププラン</h2>
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-label">LIGHT</div>
+      <h3 class="plan-name">ライトプラン</h3>
+      <ul class="plan-features">
+        <li>2セッション</li>
+        <li>懇親会あり</li>
+        <li>インプットと交流のバランスを重視</li>
+        <li>ミートアップ形式</li>
+        <li>SNSリツイート支援</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-label">STANDARD</div>
+      <h3 class="plan-name">スタンダードプラン</h3>
+      <ul class="plan-features">
+        <li>4セッション</li>
+        <li>懇親会あり</li>
+        <li>ライブ配信支援あり</li>
+        <li>集客支援フルサポート</li>
+        <li>会場キャパシティ 70-100名</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-heading">オプション</h2>
+  <ul class="options-list">
+    <li>
+      <span class="option-name">note執筆代行</span> <span class="option-desc">— Designship運営が公式noteを執筆。イベントの価値を可視化します。</span>
+    </li>
+    <li>
+      <span class="option-name">SNS拡散強化</span> <span class="option-desc">— スポンサー様のnote等を公式アカウントが積極的にリツイートし、リーチを最大化。</span>
+    </li>
+    <li>
+      <span class="option-name">リード提供</span> <span class="option-desc">— イベント参加者の属性データ共有（個人情報保護方針に基づく範囲内）。</span>
+    </li>
+  </ul>
+
+  <div class="contact-block">
+    <p>プランの詳細・お見積もりについてはお気軽にご相談ください</p>
+    <a href="mailto:contact@design-ship.jp" class="contact-email">contact@design-ship.jp</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('particle-canvas');
+  var ctx = canvas.getContext('2d');
+  var colors = [[233,30,140],[123,47,190],[255,23,68],[255,214,0],[48,79,254]];
+  var particles = [];
+  var count = window.innerWidth < 768 ? 50 : 100;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (var i = 0; i < count; i++) {
+    var c = colors[Math.floor(Math.random() * colors.length)];
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 0.5 + Math.random() * 1.5,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+      o: 0.15 + Math.random() * 0.35,
+      c: c
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.c[0] + ',' + p.c[1] + ',' + p.c[2] + ',' + p.o + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>
