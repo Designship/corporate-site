@@ -585,7 +585,10 @@ canvas#fluid {
   height: 300px;
   position: relative;
   overflow: visible;
-  z-index: 2;
+  z-index: 10;
+  margin-top: -100px;
+  margin-bottom: -100px;
+  pointer-events: none;
 }
 .fluid-snake canvas {
   width: 100%;
@@ -633,11 +636,7 @@ canvas#fluid {
 }
 
 /* ---- CONTACT ---- */
-.contact-section { text-align: center; position: relative; }
-.contact-bg {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(233,30,140,0.05) 0%, transparent 70%);
-}
+.contact-section { text-align: center; position: relative; background: transparent; }
 .contact-email {
   display: inline-block;
   font-size: clamp(16px, 2vw, 26px); font-weight: 600;
@@ -862,7 +861,7 @@ canvas#fluid {
 </section>
 
 <!-- ===== COMPANY INFO ===== -->
-<section id="company" style="min-height:auto;">
+<section id="company" style="min-height:auto; position:relative; z-index:1;">
   <div class="section-pad">
     <h2 class="section-title reveal">法人概要</h2>
 
@@ -887,8 +886,7 @@ canvas#fluid {
 
 <!-- ===== CONTACT ===== -->
 <section class="contact-section" id="contact">
-  <div class="contact-bg"></div>
-  <div class="section-pad" style="text-align:center; position:relative; z-index:1;">
+  <div class="section-pad" style="text-align:center;">
     <h2 class="section-title reveal delay-1">ご連絡ください</h2>
     <p class="section-desc reveal delay-2" style="margin:0 auto 32px;">
       取材や各種事業へのお問い合わせは下記メールアドレスまでお気軽にご連絡ください。
