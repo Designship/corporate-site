@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー | 一般社団法人デザインシップ</title>
+<meta name="description" content="一般社団法人デザインシップのプライバシーポリシー。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://designship.github.io/corporate-site/pages/privacy-policy.html">
+
+<!-- OGP -->
+<meta property="og:title" content="プライバシーポリシー | 一般社団法人デザインシップ">
+<meta property="og:description" content="一般社団法人デザインシップのプライバシーポリシー。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://designship.github.io/corporate-site/pages/privacy-policy.html">
+<meta property="og:image" content="https://designship.github.io/corporate-site/assets/images/ogp-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="806">
+<meta property="og:site_name" content="一般社団法人デザインシップ">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="プライバシーポリシー | 一般社団法人デザインシップ">
+<meta name="twitter:description" content="一般社団法人デザインシップのプライバシーポリシー。">
+<meta name="twitter:image" content="https://designship.github.io/corporate-site/assets/images/ogp-1200.png">
+<meta name="twitter:site" content="@Designship_jp">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #888888;
+  --dark-gray: #1a1a1a;
+  --magenta: #E91E8C;
+}
+
+html { scroll-behavior: smooth; background: var(--black); }
+
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.8;
+}
+
+::selection { background: var(--magenta); color: var(--white); }
+a { color: inherit; text-decoration: none; }
+
+/* Particle canvas */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px 24px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.top-bar a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gray);
+  transition: color 0.3s ease;
+}
+.top-bar a:hover { color: var(--white); }
+
+/* Page layout */
+.page-header {
+  position: relative;
+  z-index: 1;
+  padding-top: 80px;
+  text-align: left;
+  margin-bottom: 64px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.page-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.3;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.page-container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+/* Content styles */
+.policy-intro {
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 2;
+  max-width: 720px;
+  margin: 0 0 64px;
+  text-align: left;
+}
+
+.section-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  border-left: 3px solid var(--magenta);
+  padding-left: 16px;
+}
+
+.section-block {
+  margin-bottom: 48px;
+}
+
+.section-block p {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  line-height: 2;
+  margin-bottom: 16px;
+}
+
+.section-block ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 16px;
+}
+
+.section-block ul li {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  line-height: 2;
+  padding-left: 1.2em;
+  position: relative;
+}
+
+.section-block ul li::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+  color: var(--gray);
+}
+
+.contact-address {
+  font-size: 15px;
+  color: var(--magenta);
+  font-weight: 500;
+}
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div class="top-bar">
+  <a href="../index.html">&larr; 一般社団法人デザインシップ</a>
+</div>
+
+<div class="page-header">
+  <h1 class="page-title">プライバシーポリシー</h1>
+</div>
+
+<div class="page-container">
+  <p class="policy-intro">一般社団法人デザインシップは、プライバシーポリシーを以下のように定め、個人情報の適切な保護に努めます。</p>
+
+  <div class="section-block">
+    <h2 class="section-heading">個人情報の収集</h2>
+    <p>当法人は、当法人が行う各種サービスの利用者、当法人の事業に関わる審査・選考の関係者及びその他当法人と契約関係にある者から任意に提供される情報を、必要な範囲で収集します。個人情報を収集する際は、その目的を明示するとともに提供者の意思に基づくことを原則とします。</p>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">個人情報の利用</h2>
+    <p>当法人は、提供いただいた個人情報を以下の目的の範囲内で利用します：</p>
+    <ul>
+      <li>本人確認</li>
+      <li>利用申込に関するサービスの提供</li>
+      <li>利用料金の請求及びその他の当法人と対象者との契約関係の事務手続</li>
+      <li>利用サービス提供条件の変更・停止・中止・契約解除の通知</li>
+      <li>イベントの開催案内</li>
+      <li>イベント運営に関わる必要な情報の提供</li>
+      <li>個人を特定できない形での統計的な情報として、当法人の裁量に基づく利用及び公開</li>
+      <li>上記の他、当法人の各種サービスに関する情報提供やサービス向上のための調査</li>
+    </ul>
+    <p>当法人は、提供いただいたメールアドレスや電話番号に対して、当法人のサービス・イベント・商品等についてご案内をする連絡をさせていただく場合がございます。</p>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">個人情報の第三者への開示・提供の禁止</h2>
+    <p>当社は、提供いただいた個人情報を適切に管理し、次のいずれかに該当する場合を除き、個人情報を第三者に開示いたしません：</p>
+    <ul>
+      <li>法令の規定に基づくとき</li>
+      <li>提供者本人の同意があるとき</li>
+      <li>事業に必要な範囲において当社が業務を委託するとき</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">個人情報の管理</h2>
+    <p>当社は、個人情報を利用目的の範囲内で正確・完全・最新の内容に保つよう努め、不正なアクセス、漏えい、改ざん、滅失、き損等を防止するため、現時点での技術水準に合わせた必要かつ適切な安全管理措置を講じ、必要に応じて是正してまいります。</p>
+    <ul>
+      <li>個人情報へのアクセスの管理（アクセス権限者の限定、パスワードの定期的変更、入退室管理等）を実施します。</li>
+      <li>個人情報の持出し手段の制限（みだりに外部記録媒体へ記録することの禁止等）を実施します。</li>
+      <li>個人情報と取り扱う情報システムを外部からの不正アクセスまたは不正ソフトウェアから保護する仕組みを導入しています。</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">個人情報の開示および訂正等</h2>
+    <p>お客様は、個人情報保護法に従い、個人情報の開示、訂正、削除、消去、及び利用停止等を請求することができます。個人情報の開示、訂正、削除、消去、及び利用停止等のご請求は、記載のメールアドレス宛にご連絡ください。</p>
+    <p>個人情報の開示を行う場合には、電磁的記録の提供による方法又は書面による方法のいずれかをご選択の上で、当社所定の本人確認書類をご提出いただきます。個人情報の開示につきましては、手数料（1件あたり1,000円）を頂戴いたします。</p>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">Google アナリティクスについて</h2>
+    <p>当サイトでは、Googleによるアクセス解析ツール「Google アナリティクス」を使用しています。Google アナリティクスはデータの収集のためにCookieを使用しています。このデータは匿名で収集されており、個人を特定するものではありません。この機能はCookieを無効にすることで収集を拒否することができます。お使いのブラウザの設定をご確認ください。</p>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">プライバシーポリシーの変更について</h2>
+    <p>当法人は、予告無くプライバシーポリシーを改定することがあります。プライバシーポリシーの改定があったときは、当法人が運営するウェブサイトに遅滞なく掲載いたします。</p>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-heading">個人情報の取り扱いに関する問い合わせ先</h2>
+    <p><span class="contact-address">contact@design-ship.jp</span></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('particle-canvas');
+  var ctx = canvas.getContext('2d');
+  var colors = [[233,30,140],[123,47,190],[255,23,68],[255,214,0],[48,79,254]];
+  var particles = [];
+  var count = 50;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (var i = 0; i < count; i++) {
+    var c = colors[Math.floor(Math.random() * colors.length)];
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 0.5 + Math.random() * 1.5,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+      o: 0.15 + Math.random() * 0.35,
+      c: c
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.c[0] + ',' + p.c[1] + ',' + p.c[2] + ',' + p.o + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>

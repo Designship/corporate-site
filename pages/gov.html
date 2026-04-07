@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行政支援 | 一般社団法人デザインシップ</title>
+<meta name="description" content="行政機関のデザイン導入を支援。東京都港区・狛江市などで研修実績多数。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://designship.github.io/corporate-site/pages/gov.html">
+
+<!-- OGP -->
+<meta property="og:title" content="行政支援 | 一般社団法人デザインシップ">
+<meta property="og:description" content="行政機関のデザイン導入を支援。東京都港区・狛江市などで研修実績多数。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://designship.github.io/corporate-site/pages/gov.html">
+<meta property="og:image" content="https://designship.github.io/corporate-site/assets/images/ogp-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="806">
+<meta property="og:site_name" content="一般社団法人デザインシップ">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="行政支援 | 一般社団法人デザインシップ">
+<meta name="twitter:description" content="行政機関のデザイン導入を支援。東京都港区・狛江市などで研修実績多数。">
+<meta name="twitter:image" content="https://designship.github.io/corporate-site/assets/images/ogp-1200.png">
+<meta name="twitter:site" content="@Designship_jp">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #888888;
+  --dark-gray: #1a1a1a;
+  --magenta: #E91E8C;
+}
+
+html { scroll-behavior: smooth; background: var(--black); }
+
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.8;
+}
+
+::selection { background: var(--magenta); color: var(--white); }
+a { color: inherit; text-decoration: none; }
+
+/* Particle canvas */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px 24px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.top-bar a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gray);
+  transition: color 0.3s ease;
+}
+.top-bar a:hover { color: var(--white); }
+
+/* Page layout */
+.page-header {
+  position: relative;
+  z-index: 1;
+  padding-top: 80px;
+  text-align: left;
+  margin-bottom: 64px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.page-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.3;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.page-container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+.page-description {
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 2;
+  max-width: 100%;
+  margin: 0 0 0;
+  text-align: left;
+}
+
+.page-hero-img {
+  width: 100%;
+  border-radius: 12px;
+  margin: 32px 0 48px;
+  object-fit: cover;
+  max-height: 400px;
+}
+
+/* Section heading */
+.section-heading {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  border-left: 3px solid #E91E8C;
+  padding-left: 16px;
+}
+
+/* Achievement list — CSS grid with fixed year column */
+.list-table {
+  width: 100%;
+  margin-bottom: 64px;
+}
+
+.list-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: start;
+  padding: 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.list-row:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+
+.list-row-link {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: start;
+  width: 100%;
+  padding: 16px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  color: var(--magenta);
+  transition: background 0.2s ease;
+}
+.list-row-link:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+.list-row-link:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Prevent double borders */
+.list-row + .list-row-link,
+.list-row-link + .list-row,
+.list-row-link + .list-row-link,
+.list-row + .list-row {
+  border-top: none;
+}
+
+.list-year {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray);
+  font-variant-numeric: tabular-nums;
+  min-width: 60px;
+  text-align: right;
+  padding-right: 16px;
+}
+
+.list-name {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.list-row-link .list-name {
+  color: var(--magenta);
+}
+
+.list-arrow {
+  flex-shrink: 0;
+  font-size: 14px;
+  margin-left: 12px;
+  color: var(--magenta);
+}
+
+/* Contact */
+.contact-block {
+  margin-top: 64px;
+  padding: 48px;
+  background: var(--dark-gray);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.contact-block p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+
+.contact-email {
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 600;
+  color: var(--magenta);
+  transition: opacity 0.3s ease;
+}
+.contact-email:hover { opacity: 0.7; }
+
+@media (max-width: 768px) {
+  .list-row, .list-row-link { grid-template-columns: 60px 1fr; }
+  .contact-block { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div class="top-bar">
+  <a href="javascript:history.back()" class="back-link">&larr; 一般社団法人デザインシップ</a>
+</div>
+
+<div class="page-header">
+  <h1 class="page-title">行政支援</h1>
+</div>
+
+<div class="page-container">
+  <p class="page-description">
+    自治体職員のデザインリテラシー向上を目的とした研修プログラムを提供。住民にわかりやすい情報発信の実現を支援します。
+  </p>
+  <img src="../assets/images/biz/gov.jpg" class="page-hero-img">
+
+  <h2 class="section-heading">実績</h2>
+  <div class="list-table">
+
+    <a href="https://note.com/designship_jp/n/n4967c0406a60" target="_blank" rel="noopener" class="list-row-link">
+      <span class="list-year">2021</span>
+      <span class="list-name">東京都港区 区民にわかりやすい情報発信 デザイン研修 &#8599;</span>
+    </a>
+
+    <div class="list-row">
+      <span class="list-year">2022</span>
+      <span class="list-name">東京都港区 区民にわかりやすい情報発信 デザイン研修</span>
+    </div>
+
+    <a href="https://note.com/komae_design/n/n619f418dc03b" target="_blank" rel="noopener" class="list-row-link">
+      <span class="list-year">2022</span>
+      <span class="list-name">東京都狛江市 デザイン作成入門研修 &#8599;</span>
+    </a>
+
+    <div class="list-row">
+      <span class="list-year">2023</span>
+      <span class="list-name">東京都港区 区民にわかりやすい情報発信 デザイン研修</span>
+    </div>
+
+    <div class="list-row">
+      <span class="list-year">2023</span>
+      <span class="list-name">東京都港区 伝わる日本語研修</span>
+    </div>
+
+    <div class="list-row">
+      <span class="list-year">2024</span>
+      <span class="list-name">東京都港区 区民にわかりやすい情報発信 デザイン研修</span>
+    </div>
+
+    <div class="list-row">
+      <span class="list-year">2025</span>
+      <span class="list-name">東京都港区 区民にわかりやすい情報発信 デザイン研修</span>
+    </div>
+
+  </div>
+
+  <div class="contact-block">
+    <p>行政向けデザイン支援についてのご相談はこちら</p>
+    <a href="mailto:gov@design-ship.jp" class="contact-email">gov@design-ship.jp</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('particle-canvas');
+  var ctx = canvas.getContext('2d');
+  var colors = [[233,30,140],[123,47,190],[255,23,68],[255,214,0],[48,79,254]];
+  var particles = [];
+  var count = window.innerWidth < 768 ? 50 : 100;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (var i = 0; i < count; i++) {
+    var c = colors[Math.floor(Math.random() * colors.length)];
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 0.5 + Math.random() * 1.5,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+      o: 0.15 + Math.random() * 0.35,
+      c: c
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.c[0] + ',' + p.c[1] + ',' + p.c[2] + ',' + p.o + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>
