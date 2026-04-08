@@ -31,15 +31,6 @@ body {
 a { color: inherit; text-decoration: none; }
 
 /* Particle canvas */
-#particle-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
 
 /* Top bar */
 .top-bar {
@@ -156,7 +147,6 @@ a { color: inherit; text-decoration: none; }
 </head>
 <body>
 
-<canvas id="particle-canvas"></canvas>
 
 <div class="top-bar">
   <a href="../index.html">&larr; 一般社団法人デザインシップ</a>
@@ -234,52 +224,3 @@ a { color: inherit; text-decoration: none; }
 
 <script>
 (function() {
-  var canvas = document.getElementById('particle-canvas');
-  var ctx = canvas.getContext('2d');
-  var colors = [[233,30,140],[123,47,190],[255,23,68],[255,214,0],[48,79,254]];
-  var particles = [];
-  var count = 50;
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (var i = 0; i < count; i++) {
-    var c = colors[Math.floor(Math.random() * colors.length)];
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: 0.5 + Math.random() * 1.5,
-      dx: (Math.random() - 0.5) * 0.3,
-      dy: (Math.random() - 0.5) * 0.3,
-      o: 0.15 + Math.random() * 0.35,
-      c: c
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
-      p.x += p.dx;
-      p.y += p.dy;
-      if (p.x < 0) p.x = canvas.width;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (p.y > canvas.height) p.y = 0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + p.c[0] + ',' + p.c[1] + ',' + p.c[2] + ',' + p.o + ')';
-      ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-</script>
-
-</body>
-</html>

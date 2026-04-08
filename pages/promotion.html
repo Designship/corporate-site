@@ -31,15 +31,6 @@ body {
 a { color: inherit; text-decoration: none; }
 
 /* Particle canvas */
-#particle-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
 
 /* Top bar */
 .top-bar {
@@ -227,7 +218,6 @@ a { color: inherit; text-decoration: none; }
 </head>
 <body>
 
-<canvas id="particle-canvas"></canvas>
 
 <div class="top-bar">
   <a href="javascript:history.back()" class="back-link">&larr; 一般社団法人デザインシップ</a>
@@ -248,25 +238,25 @@ a { color: inherit; text-decoration: none; }
 
     <a href="https://www.tokyo-midtown.com/jp/event/7127/" target="_blank" rel="noopener" class="list-row-link">
       <span class="list-year">2024</span>
-      <span class="list-name">Tokyo Midtown DESIGN TOUCH 2024 <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+      <span class="list-name">Tokyo Midtown DESIGN TOUCH 2024 <svg class="external-icon" style="vertical-align:-3px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
       <span class="list-role">パートナー</span>
     </a>
 
     <a href="https://www.jidp.or.jp/2024/06/04/wpd2024" target="_blank" rel="noopener" class="list-row-link">
       <span class="list-year">2024</span>
-      <span class="list-name">デザイン白書2024 <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+      <span class="list-name">デザイン白書2024 <svg class="external-icon" style="vertical-align:-3px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
       <span class="list-role">制作協力</span>
     </a>
 
     <a href="https://prtimes.jp/main/html/rd/p/000000006.000075376.html" target="_blank" rel="noopener" class="list-row-link">
       <span class="list-year">2023</span>
-      <span class="list-name">世界デザイン会議東京2023 <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+      <span class="list-name">世界デザイン会議東京2023 <svg class="external-icon" style="vertical-align:-3px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
       <span class="list-role">ストラテジックパートナー</span>
     </a>
 
     <a href="https://designship-dialogue-fukushima.peatix.com" target="_blank" rel="noopener" class="list-row-link">
       <span class="list-year">2022</span>
-      <span class="list-name">アフター復興を考える ―これからの被災地のためのデザイン <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+      <span class="list-name">アフター復興を考える ―これからの被災地のためのデザイン <svg class="external-icon" style="vertical-align:-3px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
       <span class="list-role">地域経済産業活性化対策受託</span>
     </a>
 
@@ -280,52 +270,3 @@ a { color: inherit; text-decoration: none; }
 
 <script>
 (function() {
-  var canvas = document.getElementById('particle-canvas');
-  var ctx = canvas.getContext('2d');
-  var colors = [[233,30,140],[123,47,190],[255,23,68],[255,214,0],[48,79,254]];
-  var particles = [];
-  var count = window.innerWidth < 768 ? 50 : 100;
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  for (var i = 0; i < count; i++) {
-    var c = colors[Math.floor(Math.random() * colors.length)];
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: 0.5 + Math.random() * 1.5,
-      dx: (Math.random() - 0.5) * 0.3,
-      dy: (Math.random() - 0.5) * 0.3,
-      o: 0.15 + Math.random() * 0.35,
-      c: c
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
-      p.x += p.dx;
-      p.y += p.dy;
-      if (p.x < 0) p.x = canvas.width;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (p.y > canvas.height) p.y = 0;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + p.c[0] + ',' + p.c[1] + ',' + p.c[2] + ',' + p.o + ')';
-      ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-</script>
-
-</body>
-</html>
