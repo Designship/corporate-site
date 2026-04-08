@@ -1330,10 +1330,10 @@ canvas#fluid {
 
   // Modify the hero fragment shader: band across full width
   var isMobile = window.innerWidth <= 768;
-  var snakeHalf = isMobile ? '0.20' : '0.12';
+  var snakeHalf = isMobile ? '0.18' : '0.10';
   var snakeWave = isMobile
-    ? 'float snake = 0.02 * sin(xn * 6.0 + t * 0.3);'
-    : 'float snake = 0.12 * sin(xn * 8.0 + t * 0.3) + 0.06 * sin(xn * 13.0 - t * 0.5);';
+    ? 'float snake = 0.01 * sin(xn * 6.0 + t * 0.3);'
+    : 'float snake = 0.04 * sin(xn * 6.0 + t * 0.3) + 0.02 * sin(xn * 10.0 - t * 0.4);';
   var fsSource = window._heroFS
     .replace(/float minHalf = [\d.]+;\s*float maxHalf = [\d.]+;/, 'float minHalf = ' + snakeHalf + '; float maxHalf = ' + snakeHalf + ';')
     .replace(/float expansion = [^;]+;/, 'float expansion = 1.0;')
