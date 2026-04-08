@@ -153,6 +153,7 @@ canvas#fluid {
   canvas#fluid {
     transform: scaleY(-1);
   }
+  .hero { overflow: visible; }
   .hero-logo-img { height: 100px; }
   .hero-tagline {
     font-size: clamp(28px, 8vw, 48px);
@@ -575,7 +576,7 @@ canvas#fluid {
 /* ---- FLUID SNAKE DIVIDER ---- */
 .fluid-snake {
   width: 100%;
-  height: 200px;
+  height: 260px;
   position: relative;
   pointer-events: none;
 }
@@ -585,7 +586,7 @@ canvas#fluid {
   display: block;
 }
 @media (max-width: 768px) {
-  .fluid-snake { height: 100px; }
+  .fluid-snake { height: 140px; }
 }
 .fluid-snake-fallback {
   width: 100%;
@@ -674,7 +675,7 @@ canvas#fluid {
     <p class="section-label reveal">ミッション</p>
     <h2 class="section-title reveal delay-1"><span class="accent">次世代の産業</span>に貢献する<br>デザイン人材の輩出。</h2>
     <p class="section-desc reveal delay-2">
-      デザインシップは、産業においてデザインの対象範囲や役割が拡張しかつてないほどに重要視される世の流れに沿って、現在だけではなく次世代においてあるべきデザイン人材像を構想し、示し、その目標までの道のりを支え、もって国民の創造性向上に寄与することを目的とし、その目的に資するため事業をおこなっています。
+      デザインシップは、産業においてデザインの対象範囲や役割が拡張しかつてないほどに重要視される世の流れに沿って、現在だけではなく次世代においてあるべきデザイン人材像を構想し、示し、その目標までの道のりを支え、もって国民の創造性向上に寄与することを目的とし、その目的に資するため事業をおこなっています。全事業においてコラボレーションを重視しており、様々なデザイン団体との協力や、産官学の連携を重視しています。
     </p>
 
     <!-- 産官学連携 Diagram — Creative Glassmorphism -->
@@ -722,7 +723,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">カンファレンス運営</h3>
           <p class="biz-desc">2018年より毎年開催する日本最大級のデザインカンファレンス「Designship」。最前線で活躍するデザイナーが登壇し、デザインの現在と未来を共有する年に一度の祭典。</p>
-          <span class="biz-arrow">Designshipの開催実績 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          <span class="biz-arrow">Designshipの開催実績 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
         </div>
       </a>
 
@@ -742,7 +743,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">イベント企画支援</h3>
           <p class="biz-desc">Tokyo Midtown DESIGN TOUCH、世界デザイン会議東京2023など、大規模デザインイベントの企画・運営を支援。コンセプト設計からプログラム構成、当日運営まで一気通貫でサポート。</p>
-          <span class="biz-arrow">プランの概要 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          <span class="biz-arrow">プランの概要 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
         </div>
       </a>
 
@@ -752,7 +753,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">イベント配信支援</h3>
           <p class="biz-desc">カンファレンス運営で培った高品質なオンライン配信技術を提供。Goodpatch、弁護士ドットコム、日本デザイン振興会など多数の配信実績。</p>
-          <span class="biz-arrow">サービス概要と実績 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          <span class="biz-arrow">サービス概要と実績 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
         </div>
       </a>
 
@@ -772,7 +773,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">行政支援</h3>
           <p class="biz-desc">行政機関のデザイン導入を支援。東京都港区「区民にわかりやすい情報発信 デザイン研修」、東京都狛江市「デザイン作成入門研修」など多数の実績。</p>
-          <span class="biz-arrow">実績とレポート <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          <span class="biz-arrow">実績とレポート <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
         </div>
       </a>
 
@@ -812,7 +813,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">デザイン振興</h3>
           <p class="biz-desc">経済産業省関連事業への協力やデザインに関する調査・研究など、デザインの社会的価値を広める活動を推進。</p>
-          <span class="biz-arrow">一部実績 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          <span class="biz-arrow">一部実績 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px;margin-left:4px;"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
         </div>
       </a>
 
@@ -1339,7 +1340,12 @@ canvas#fluid {
     .replace(/float diagLeft = [^;]+;/, 'float diagLeft = 0.5;')
     .replace(/float blend = [^;]+;/, 'float blend = 0.0;')
     .replace(/float snake = wave;/, snakeWave)
-    .replace(/float richness = [^;]+;/, 'float richness = 1.0;');
+    .replace(/float richness = [^;]+;/, 'float richness = 1.0;')
+    .replace(/float reveal1 = [^;]+;/, 'float reveal1 = 1.0;')
+    .replace(/float reveal2 = [^;]+;/, 'float reveal2 = 1.0;')
+    .replace(/float reveal3 = [^;]+;/, 'float reveal3 = 1.0;')
+    .replace(/float reveal4 = [^;]+;/, 'float reveal4 = 1.0;')
+    .replace(/float reveal5 = [^;]+;/, 'float reveal5 = 1.0;');
 
   function createShader(type, source) {
     var s = gl.createShader(type);
