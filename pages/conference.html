@@ -240,17 +240,20 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 @media (max-width: 768px) {
-  .timeline { padding-left: 32px; }
-  .timeline::before { left: 16px; }
+  .timeline { padding-left: 36px; }
+  .timeline::before { left: 15px; }
   .timeline-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
     margin-bottom: 32px;
+    position: relative;
   }
   .timeline-row:last-child { margin-bottom: 0; }
   .timeline-row::before {
-    left: -20px;
+    left: -25px;
+    top: 8px;
+    transform: none;
     width: 10px;
     height: 10px;
   }
