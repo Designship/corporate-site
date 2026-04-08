@@ -416,8 +416,8 @@ img { max-width: 100%; height: auto; display: block; }
     // Dot is at vertical center of each row
     var firstDotCenter = (firstRect.top + firstRect.height / 2) - timelineRect.top;
     var lastDotCenter = (lastRect.top + lastRect.height / 2) - timelineRect.top;
-    timeline.style.setProperty('--line-top', (firstDotCenter + 2) + 'px');
-    timeline.style.setProperty('--line-bottom', (timelineRect.height - lastDotCenter + 2) + 'px');
+    timeline.style.setProperty('--line-top', (firstDotCenter + 6) + 'px');
+    timeline.style.setProperty('--line-bottom', (timelineRect.height - lastDotCenter + 6) + 'px');
   }
   // CSS variables applied directly on .timeline element
   window.addEventListener('load', positionLine);
