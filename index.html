@@ -123,8 +123,8 @@ canvas#fluid {
 }
 
 .hero-logo-img {
-  height: 140px;
-  width: auto;
+  width: clamp(280px, 40vw, 500px);
+  height: auto;
   filter: drop-shadow(0 2px 20px rgba(0,0,0,0.6));
   margin-bottom: 32px;
   opacity: 0;
@@ -172,7 +172,7 @@ canvas#fluid {
     transform: scaleY(-1);
   }
   .hero { overflow: visible; }
-  .hero-logo-img { height: 100px; }
+  .hero-logo-img { width: 70vw; max-width: 320px; }
   .hero-tagline {
     font-size: clamp(28px, 8vw, 48px);
   }
