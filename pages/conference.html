@@ -241,7 +241,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 768px) {
   .timeline { padding-left: 36px; }
-  .timeline::before { left: 17px; }
+  .timeline::before { left: 18px; transform: translateX(-50%); }
   .timeline-row {
     flex-direction: column;
     align-items: flex-start;
@@ -252,7 +252,7 @@ img { max-width: 100%; height: auto; display: block; }
   .timeline-row:last-child { margin-bottom: 0; }
   .dot {
     left: -18px;
-    top: 14px;
+    top: 24px;
     transform: translateX(-50%);
     width: 10px;
     height: 10px;
