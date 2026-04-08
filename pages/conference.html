@@ -252,10 +252,10 @@ img { max-width: 100%; height: auto; display: block; }
   .timeline-row:last-child { margin-bottom: 0; }
   .dot {
     left: -18px;
-    top: 24px;
+    top: 19px;
     transform: translateX(-50%);
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
   }
   .timeline-year {
     position: relative;
@@ -409,15 +409,15 @@ img { max-width: 100%; height: auto; display: block; }
   function pos() {
     var tl = document.getElementById('timeline');
     if (!tl) return;
-    var rows = tl.querySelectorAll('.timeline-row');
-    if (rows.length < 2) return;
+    var dots = tl.querySelectorAll('.dot');
+    if (dots.length < 2) return;
     var tlRect = tl.getBoundingClientRect();
-    var first = rows[0].getBoundingClientRect();
-    var last = rows[rows.length - 1].getBoundingClientRect();
-    var top = (first.top + first.height / 2) - tlRect.top;
-    var bottom = tlRect.height - ((last.top + last.height / 2) - tlRect.top);
-    tl.querySelector('::before'); // force layout
-    tl.style.cssText += ';--tl-top:' + top + 'px;--tl-bottom:' + bottom + 'px;';
+    var firstDot = dots[0].getBoundingClientRect();
+    var lastDot = dots[dots.length - 1].getBoundingClientRect();
+    var top = (firstDot.top + firstDot.height / 2) - tlRect.top;
+    var bottom = tlRect.height - ((lastDot.top + lastDot.height / 2) - tlRect.top);
+    tl.style.setProperty('--tl-top', top + 'px');
+    tl.style.setProperty('--tl-bottom', bottom + 'px');
   }
   // Run after images load
   window.addEventListener('load', function() { requestAnimationFrame(function() { requestAnimationFrame(pos); }); });
