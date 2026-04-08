@@ -170,20 +170,19 @@ img { max-width: 100%; height: auto; display: block; }
   padding-right: 32px;
 }
 
-/* Dot */
+/* Dot — desktop: same position as the old ::before */
 .timeline-row::before { display: none; }
 .dot {
   position: absolute;
-  left: -20px;
+  left: calc(120px - 100px - var(--dot-size) / 2 + 1px);
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   width: var(--dot-size);
   height: var(--dot-size);
   border-radius: 50%;
   background: var(--magenta);
   border: 2px solid var(--black);
   z-index: 1;
-  flex-shrink: 0;
 }
 
 .timeline-row:hover {
