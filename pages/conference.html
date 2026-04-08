@@ -132,18 +132,16 @@ img { max-width: 100%; height: auto; display: block; }
   padding-left: 100px;
 }
 
-/* Single continuous gradient line from first dot to last dot */
-.timeline::before {
-  content: '';
+/* Line is a real DOM element positioned by JS */
+.timeline::before { display: none; }
+.timeline-line {
   position: absolute;
   left: 120px;
   width: 2px;
   background: linear-gradient(to bottom, var(--magenta), #7B2FBE, var(--magenta));
   border-radius: 1px;
+  pointer-events: none;
 }
-/* top/bottom set by JS via --tl-top / --tl-bottom custom properties */
-.timeline { --tl-top: 60px; --tl-bottom: 60px; }
-.timeline::before { top: var(--tl-top); bottom: var(--tl-bottom); }
 
 .timeline-row {
   display: flex;
@@ -241,7 +239,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 768px) {
   .timeline { padding-left: 36px; }
-  .timeline::before { left: 18px; transform: translateX(-50%); top: 20px !important; bottom: 320px !important; }
+  .timeline-line { left: 18px; transform: translateX(-50%); }
   .timeline-row {
     flex-direction: column;
     align-items: flex-start;
@@ -291,6 +289,7 @@ img { max-width: 100%; height: auto; display: block; }
   <img src="../assets/images/biz/conference.jpg" class="page-hero-img">
 
   <div class="timeline" id="timeline">
+    <div class="timeline-line" id="timeline-line"></div>
 
     <a href="https://design-ship.jp/2018" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2018</div>
@@ -404,24 +403,34 @@ img { max-width: 100%; height: auto; display: block; }
 </div>
 
 <script>
-// Position timeline line precisely from first to last dot
+// Position timeline line: from center of first dot to center of last dot
 (function() {
+  var line = document.getElementById('timeline-line');
+  var tl = document.getElementById('timeline');
+  if (!line || !tl) return;
+
   function pos() {
-    var tl = document.getElementById('timeline');
-    if (!tl) return;
     var dots = tl.querySelectorAll('.dot');
-    if (dots.length < 2) return;
+    if (dots.length < 2) { line.style.display = 'none'; return; }
     var tlRect = tl.getBoundingClientRect();
-    var firstDot = dots[0].getBoundingClientRect();
-    var lastDot = dots[dots.length - 1].getBoundingClientRect();
-    var top = (firstDot.top + firstDot.height / 2) - tlRect.top;
-    var bottom = tlRect.height - ((lastDot.top + lastDot.height / 2) - tlRect.top);
-    tl.style.setProperty('--tl-top', top + 'px');
-    tl.style.setProperty('--tl-bottom', bottom + 'px');
+    var first = dots[0].getBoundingClientRect();
+    var last = dots[dots.length - 1].getBoundingClientRect();
+    var topPx = (first.top + first.height / 2) - tlRect.top;
+    var bottomPx = (last.top + last.height / 2) - tlRect.top;
+    line.style.top = topPx + 'px';
+    line.style.height = (bottomPx - topPx) + 'px';
   }
-  // Run after images load
-  window.addEventListener('load', function() { requestAnimationFrame(function() { requestAnimationFrame(pos); }); });
+
+  // Run multiple times to handle image loading shifting layout
+  window.addEventListener('load', function() {
+    pos();
+    setTimeout(pos, 100);
+    setTimeout(pos, 500);
+    setTimeout(pos, 1500);
+  });
   window.addEventListener('resize', pos);
+  // Also run immediately
+  requestAnimationFrame(pos);
 })();
 
 // Particle animation
