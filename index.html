@@ -575,23 +575,20 @@ canvas#fluid {
 /* ---- FLUID SNAKE DIVIDER ---- */
 .fluid-snake {
   width: 100%;
-  height: 300px;
+  height: 200px;
   position: relative;
   pointer-events: none;
-  margin: 0;
 }
 .fluid-snake canvas {
+  position: absolute;
+  top: -80px;
+  left: 0;
   width: 100%;
-  height: 100%;
-  display: block;
+  height: calc(100% + 160px);
 }
 @media (max-width: 768px) {
-  .fluid-snake { height: 120px; }
-}
-.fluid-snake canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
+  .fluid-snake { height: 80px; margin-top: -20px; margin-bottom: -20px; }
+  .fluid-snake canvas { top: -40px; height: calc(100% + 80px); }
 }
 .fluid-snake-fallback {
   width: 100%;
@@ -634,7 +631,7 @@ canvas#fluid {
 }
 
 /* ---- CONTACT ---- */
-.contact-section { text-align: center; position: relative; background: transparent; }
+.contact-section { text-align: center; position: relative; z-index: 2; }
 .contact-email {
   display: inline-block;
   font-size: clamp(16px, 2vw, 26px); font-weight: 600;
@@ -728,7 +725,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">カンファレンス運営</h3>
           <p class="biz-desc">2018年より毎年開催する日本最大級のデザインカンファレンス「Designship」。最前線で活躍するデザイナーが登壇し、デザインの現在と未来を共有する年に一度の祭典。</p>
-          <span class="biz-arrow">カンファレンス運営の詳細をみる →</span>
+          <span class="biz-arrow">Designshipの開催実績 ›</span>
         </div>
       </a>
 
@@ -738,7 +735,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">ハッカソン運営</h3>
           <p class="biz-desc">高校生から社会人まで、デザインとテクノロジーの力で社会課題に挑む「Hack-1グランプリ」を運営。東京大学をはじめ全国の会場で開催。</p>
-          <span class="biz-arrow">Hack-1グランプリ <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+          <span class="biz-arrow">Hack-1グランプリ <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
         </div>
       </a>
 
@@ -748,7 +745,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">イベント企画支援</h3>
           <p class="biz-desc">Tokyo Midtown DESIGN TOUCH、世界デザイン会議東京2023など、大規模デザインイベントの企画・運営を支援。コンセプト設計からプログラム構成、当日運営まで一気通貫でサポート。</p>
-          <span class="biz-arrow">イベント企画支援の詳細をみる →</span>
+          <span class="biz-arrow">プランの概要 ›</span>
         </div>
       </a>
 
@@ -758,7 +755,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">イベント配信支援</h3>
           <p class="biz-desc">カンファレンス運営で培った高品質なオンライン配信技術を提供。Goodpatch、弁護士ドットコム、日本デザイン振興会など多数の配信実績。</p>
-          <span class="biz-arrow">イベント配信支援の詳細をみる →</span>
+          <span class="biz-arrow">サービス概要と実績 ›</span>
         </div>
       </a>
 
@@ -768,7 +765,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">トーク番組</h3>
           <p class="biz-desc">グッドデザイン賞とのコラボレーションによるトーク番組「Dialogue」。デザインの深層に迫る対話を通じて、新たな視座を提供。</p>
-          <span class="biz-arrow">Dialogue <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+          <span class="biz-arrow">Dialogue <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
         </div>
       </a>
 
@@ -778,7 +775,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">行政支援</h3>
           <p class="biz-desc">行政機関のデザイン導入を支援。東京都港区「区民にわかりやすい情報発信 デザイン研修」、東京都狛江市「デザイン作成入門研修」など多数の実績。</p>
-          <span class="biz-arrow">行政支援の詳細をみる →</span>
+          <span class="biz-arrow">実績とレポート ›</span>
         </div>
       </a>
 
@@ -788,7 +785,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">デザイン研修</h3>
           <p class="biz-desc">デザイン基礎研修、デザイン思考ワークショップ、UXデザイン研修、サービスデザイン研修など。多摩美術大学、日本郵便、日立製作所、RINNAI等の実績。</p>
-          <span class="biz-arrow">お問い合わせ <svg style="display:inline-block;vertical-align:-2px;margin-left:4px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4 12 13 2 4"/></svg></span>
+          <span class="biz-arrow">お問い合わせ <svg style="display:inline-block;vertical-align:-3px;margin-left:6px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4 12 13 2 4"/></svg></span>
         </div>
       </a>
 
@@ -798,7 +795,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">デザインスタジオ</h3>
           <p class="biz-desc">案件ごとに最適なフリーランスデザイナー・PMをアサインするオープン型デザインスタジオ「Designship Studio」。勉強会や共有フォーマットでチームの質を担保。</p>
-          <span class="biz-arrow">Designship Studio <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+          <span class="biz-arrow">Designship Studio <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
         </div>
       </a>
 
@@ -808,7 +805,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">デザインスクール</h3>
           <p class="biz-desc">「Design × Business × Leadership」をテーマにした実戦型デザインスクール「Designship Do」。経済産業省の提唱する「高度デザイン人材」の育成を目的とした教育プログラム。</p>
-          <span class="biz-arrow">Designship Do <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+          <span class="biz-arrow">Designship Do <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
         </div>
       </a>
 
@@ -818,7 +815,7 @@ canvas#fluid {
         <div class="biz-body">
           <h3 class="biz-name">デザイン振興</h3>
           <p class="biz-desc">経済産業省関連事業への協力やデザインに関する調査・研究など、デザインの社会的価値を広める活動を推進。</p>
-          <span class="biz-arrow">デザイン振興の詳細をみる →</span>
+          <span class="biz-arrow">一部実績 ›</span>
         </div>
       </a>
 
@@ -859,7 +856,7 @@ canvas#fluid {
 </section>
 
 <!-- ===== COMPANY INFO ===== -->
-<section id="company" style="min-height:auto;">
+<section id="company" style="min-height:auto; position:relative; z-index:2;">
   <div class="section-pad" style="padding-bottom:40px;">
     <h2 class="section-title reveal">法人概要</h2>
 
