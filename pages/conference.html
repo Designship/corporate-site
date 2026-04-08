@@ -132,18 +132,22 @@ img { max-width: 100%; height: auto; display: block; }
   padding-left: 100px;
 }
 
-/* The vertical line: starts at center of first dot, ends at center of last dot */
-.timeline::before {
+/* No full-height ::before line — each row draws its own line segment down to the next row */
+.timeline::before { display: none; }
+
+/* Line segment: from dot center downward to next row */
+.timeline-row::after {
   content: '';
   position: absolute;
-  left: 120px;
+  left: calc(120px - 100px - var(--dot-size) / 2 + 1px + var(--dot-size) / 2 - 1px);
+  top: 50%;
   width: 2px;
-  background: linear-gradient(to bottom, var(--magenta), #7B2FBE, var(--magenta));
-  border-radius: 1px;
-  /* Position calculated by JS to match first and last dot centers */
-  top: var(--line-top, 50px);
-  bottom: var(--line-bottom, 50px);
+  height: calc(100% + 40px); /* row height + gap */
+  background: linear-gradient(to bottom, var(--magenta), #7B2FBE);
+  z-index: 0;
 }
+/* Last row: no line below */
+.timeline-row:last-child::after { display: none; }
 
 .timeline-row {
   display: flex;
@@ -401,28 +405,6 @@ img { max-width: 100%; height: auto; display: block; }
 </div>
 
 <script>
-// Position timeline line to start/end at dot centers
-(function() {
-  function positionLine() {
-    var timeline = document.getElementById('timeline');
-    if (!timeline) return;
-    var rows = timeline.querySelectorAll('.timeline-row');
-    if (rows.length < 2) return;
-    var firstRow = rows[0];
-    var lastRow = rows[rows.length - 1];
-    var timelineRect = timeline.getBoundingClientRect();
-    var firstRect = firstRow.getBoundingClientRect();
-    var lastRect = lastRow.getBoundingClientRect();
-    // Dot is at vertical center of each row
-    var firstDotCenter = (firstRect.top + firstRect.height / 2) - timelineRect.top;
-    var lastDotCenter = (lastRect.top + lastRect.height / 2) - timelineRect.top;
-    timeline.style.setProperty('--line-top', (firstDotCenter + 6) + 'px');
-    timeline.style.setProperty('--line-bottom', (timelineRect.height - lastDotCenter + 6) + 'px');
-  }
-  // CSS variables applied directly on .timeline element
-  window.addEventListener('load', positionLine);
-  window.addEventListener('resize', positionLine);
-})();
 
 // Particle animation
 (function() {

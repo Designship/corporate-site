@@ -573,60 +573,6 @@ canvas#fluid {
   .company-table th { width: 80px; }
 }
 
-/* ---- FLUID SNAKE DIVIDER ---- */
-.fluid-snake {
-  width: 100%;
-  height: 340px;
-  position: relative;
-  pointer-events: none;
-}
-.fluid-snake canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-@media (max-width: 768px) {
-  .fluid-snake { height: 140px; }
-}
-.fluid-snake-fallback {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: none;
-}
-.fluid-snake-fallback .snake-line {
-  position: absolute;
-  top: 50%;
-  left: -100%;
-  width: 200%;
-  height: 4px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--magenta), var(--purple), var(--blue), var(--yellow), var(--red), var(--magenta));
-  background-size: 50% 100%;
-  animation: snakeMove 4s linear infinite;
-  filter: blur(1px);
-}
-.fluid-snake-fallback .snake-line:nth-child(2) {
-  top: calc(50% - 20px);
-  height: 2px;
-  opacity: 0.5;
-  animation-delay: -1s;
-  filter: blur(2px);
-}
-.fluid-snake-fallback .snake-line:nth-child(3) {
-  top: calc(50% + 20px);
-  height: 2px;
-  opacity: 0.5;
-  animation-delay: -2s;
-  filter: blur(2px);
-}
-@keyframes snakeMove {
-  0% { transform: translateX(0) translateY(0); }
-  25% { transform: translateX(12.5%) translateY(-15px); }
-  50% { transform: translateX(25%) translateY(0); }
-  75% { transform: translateX(37.5%) translateY(15px); }
-  100% { transform: translateX(50%) translateY(0); }
-}
 
 /* ---- CONTACT ---- */
 .contact-section { text-align: center; position: relative; z-index: 2; }
@@ -867,15 +813,6 @@ canvas#fluid {
   </div>
 </section>
 
-<!-- ===== FLUID SNAKE DIVIDER ===== -->
-<div class="fluid-snake" id="fluid-snake">
-  <canvas id="fluid-snake-canvas"></canvas>
-  <div class="fluid-snake-fallback">
-    <div class="snake-line"></div>
-    <div class="snake-line"></div>
-    <div class="snake-line"></div>
-  </div>
-</div>
 
 <!-- ===== CONTACT ===== -->
 <section class="contact-section" id="contact">
@@ -1302,121 +1239,5 @@ canvas#fluid {
 })();
 </script>
 
-<!-- ===== Fluid Snake WebGL ===== -->
-<script>
-(function() {
-  var snakeSection = document.getElementById('fluid-snake');
-  var canvas = document.getElementById('fluid-snake-canvas');
-  var fallback = snakeSection.querySelector('.fluid-snake-fallback');
-  var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-
-  if (!gl || !window._heroFS) {
-    // Fallback to CSS animation
-    canvas.style.display = 'none';
-    fallback.style.display = 'block';
-    return;
-  }
-
-  function resize() {
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    canvas.width = canvas.clientWidth * dpr;
-    canvas.height = canvas.clientHeight * dpr;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  var vsSource = 'attribute vec2 a_position; void main() { gl_Position = vec4(a_position, 0.0, 1.0); }';
-
-  // Modify the hero fragment shader: band across full width
-  var isMobile = window.innerWidth <= 768;
-  var snakeHalf = isMobile ? '0.18' : '0.10';
-  var snakeWave = isMobile
-    ? 'float snake = 0.01 * sin(xn * 6.0 + t * 0.3);'
-    : 'float snake = 0.04 * sin(xn * 6.0 + t * 0.3) + 0.02 * sin(xn * 10.0 - t * 0.4);';
-  var fsSource = window._heroFS
-    .replace(/float minHalf = [\d.]+;\s*float maxHalf = [\d.]+;/, 'float minHalf = ' + snakeHalf + '; float maxHalf = ' + snakeHalf + ';')
-    .replace(/float expansion = [^;]+;/, 'float expansion = 1.0;')
-    .replace(/float diagLeft = [^;]+;/, 'float diagLeft = 0.5;')
-    .replace(/float blend = [^;]+;/, 'float blend = 0.0;')
-    .replace(/float snake = wave;/, snakeWave)
-    .replace(/float richness = [^;]+;/, 'float richness = 1.0;')
-    .replace(/float reveal1 = [^;]+;/, 'float reveal1 = 1.0;')
-    .replace(/float reveal2 = [^;]+;/, 'float reveal2 = 1.0;')
-    .replace(/float reveal3 = [^;]+;/, 'float reveal3 = 1.0;')
-    .replace(/float reveal4 = [^;]+;/, 'float reveal4 = 1.0;')
-    .replace(/float reveal5 = [^;]+;/, 'float reveal5 = 1.0;');
-
-  function createShader(type, source) {
-    var s = gl.createShader(type);
-    gl.shaderSource(s, source);
-    gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      console.error(gl.getShaderInfoLog(s));
-      gl.deleteShader(s);
-      return null;
-    }
-    return s;
-  }
-
-  var vs = createShader(gl.VERTEX_SHADER, vsSource);
-  var fs = createShader(gl.FRAGMENT_SHADER, fsSource);
-  if (!vs || !fs) {
-    canvas.style.display = 'none';
-    fallback.style.display = 'block';
-    return;
-  }
-
-  var program = gl.createProgram();
-  gl.attachShader(program, vs);
-  gl.attachShader(program, fs);
-  gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.error(gl.getProgramInfoLog(program));
-    canvas.style.display = 'none';
-    fallback.style.display = 'block';
-    return;
-  }
-  gl.useProgram(program);
-
-  var buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
-  var aPos = gl.getAttribLocation(program, 'a_position');
-  gl.enableVertexAttribArray(aPos);
-  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-  var uTime = gl.getUniformLocation(program, 'u_time');
-  var uRes = gl.getUniformLocation(program, 'u_resolution');
-
-  var startTime = performance.now();
-  var running = false;
-  var frameCount = 0;
-
-  function frame() {
-    if (!running) return;
-    frameCount++;
-    if (frameCount % 2 !== 0) { requestAnimationFrame(frame); return; }
-    var t = (performance.now() - startTime) * 0.001;
-    if (canvas.width !== canvas.clientWidth * Math.min(window.devicePixelRatio, 1.5)) resize();
-    gl.uniform1f(uTime, t);
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
-    requestAnimationFrame(frame);
-  }
-
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting && !running) {
-        running = true;
-        requestAnimationFrame(frame);
-      } else if (!e.isIntersecting) {
-        running = false;
-      }
-    });
-  }, { threshold: 0.05 });
-  obs.observe(snakeSection);
-})();
-</script>
 </body>
 </html>
