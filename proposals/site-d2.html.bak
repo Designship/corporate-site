@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一般社団法人デザインシップ</title>
+<meta name="description" content="一般社団法人デザインシップ。次世代の産業に貢献するデザイン人材の輩出。日本最大級のデザインカンファレンスを主催。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #888888;
+  --dark-gray: #1a1a1a;
+  --magenta: #E91E8C;
+  --purple: #7B2FBE;
+  --red: #FF1744;
+  --yellow: #FFD600;
+  --blue: #304FFE;
+  --ease-out-expo: cubic-bezier(.19, 1, .22, 1);
+  --duration: 1.3s;
+}
+
+html { scroll-behavior: smooth; background: var(--black); overflow-x: hidden; }
+
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+::selection { background: var(--magenta); color: var(--white); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ---- COMMON SECTION STYLES ---- */
+.section-pad {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 140px 40px;
+  text-align: center;
+}
+
+.section-label {
+  font-size: clamp(18px, 2vw, 24px);
+  letter-spacing: 0.12em;
+  color: var(--magenta);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+
+.section-desc {
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 2;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ---- REVEAL ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--duration) var(--ease-out-expo), transform var(--duration) var(--ease-out-expo);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+
+canvas#fluid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  padding-bottom: 10vh;
+}
+
+.hero-logo-img {
+  height: 140px;
+  width: auto;
+  filter: drop-shadow(0 2px 20px rgba(0,0,0,0.6));
+  margin-bottom: 32px;
+  opacity: 0;
+  transition: opacity 1s ease 0.3s;
+  pointer-events: auto;
+}
+.hero.loaded .hero-logo-img { opacity: 1; }
+
+.hero-tagline {
+  font-size: clamp(36px, 7vw, 96px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 0 2px 32px rgba(0,0,0,0.8);
+}
+.hero-tagline .line { display: block; overflow: hidden; }
+.hero-tagline .line span { display: inline-block; transform: translateY(120%); transition: transform 1.4s var(--ease-out-expo); }
+.hero.loaded .hero-tagline .line span { transform: translateY(0); }
+
+.hero-sub {
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 1s ease 0.7s;
+  color: var(--gray);
+  text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+}
+.hero.loaded .hero-sub { opacity: 1; }
+
+.hero-scroll {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  opacity: 0; animation: fadeIn 1s ease 1.2s forwards;
+}
+.hero-scroll span { font-size: 11px; color: var(--gray); }
+.scroll-line { width: 1px; height: 50px; background: rgba(255,255,255,0.2); position: relative; overflow: hidden; }
+.scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: var(--white); animation: scrollDown 2s ease infinite; }
+@keyframes scrollDown { 0% { top: -100%; } 100% { top: 100%; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 768px) {
+  canvas#fluid {
+    transform: scaleX(-1) scaleY(-1);
+  }
+  .hero-logo-img { height: 100px; }
+  .hero-tagline {
+    font-size: clamp(28px, 8vw, 48px);
+  }
+}
+
+/* ---- MISSION ---- */
+.mission { padding: 0; position: relative; overflow: visible; }
+.mission .section-title {
+  font-size: clamp(24px, 3.5vw, 52px);
+}
+.mission .section-title .accent {
+  background: linear-gradient(135deg, var(--magenta), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.mission .section-pad {
+  position: relative;
+  z-index: 1;
+}
+.mission .section-desc { text-align: left; }
+
+/* ---- 産官学 DIAGRAM ---- */
+.sangakukan-section {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  margin-top: 60px;
+  padding-bottom: 80px;
+  background: radial-gradient(ellipse at center, rgba(123,47,190,0.08) 0%, rgba(233,30,140,0.04) 30%, transparent 70%);
+  border-radius: 24px;
+  overflow: visible;
+}
+
+.sangakukan-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Connecting lines */
+.sangakukan-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, var(--magenta), var(--blue));
+  opacity: 0.3;
+  transform-origin: left center;
+}
+.sangakukan-line.line-1 {
+  width: 240px;
+  top: 38%;
+  left: calc(50% - 120px);
+  background: linear-gradient(90deg, var(--magenta), var(--blue));
+  stroke-dasharray: 8 6;
+}
+.sangakukan-line.line-2 {
+  width: 200px;
+  top: 55%;
+  left: calc(50% + 20px);
+  transform: rotate(60deg);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+}
+.sangakukan-line.line-3 {
+  width: 200px;
+  top: 55%;
+  right: calc(50% + 20px);
+  transform: rotate(-60deg);
+  transform-origin: right center;
+  background: linear-gradient(90deg, var(--purple), var(--magenta));
+}
+
+/* Lines canvas */
+.sangaku-lines-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Circle nodes */
+.sangakukan-node {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  z-index: 2;
+  cursor: default;
+}
+.sangakukan-node .node-kanji {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.sangakukan-node .node-sub {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+  text-align: center;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Node positions — equilateral triangle: 産(top), 官(bottom-left), 学(bottom-right) */
+.sangakukan-node.node-san {
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(233,30,140,0.12);
+  box-shadow: 0 0 60px rgba(233,30,140,0.15), inset 0 0 30px rgba(233,30,140,0.05);
+  animation: floatNode1 6s ease-in-out infinite;
+}
+.sangakukan-node.node-san .node-kanji { color: var(--magenta); }
+
+.sangakukan-node.node-kan {
+  bottom: 10%;
+  left: calc(50% - 220px);
+  background: rgba(48,79,254,0.12);
+  box-shadow: 0 0 60px rgba(48,79,254,0.15), inset 0 0 30px rgba(48,79,254,0.05);
+  animation: floatNode2 6s ease-in-out infinite;
+}
+.sangakukan-node.node-kan .node-kanji { color: var(--blue); }
+
+.sangakukan-node.node-gaku {
+  bottom: 10%;
+  left: calc(50% + 80px);
+  background: rgba(123,47,190,0.12);
+  box-shadow: 0 0 60px rgba(123,47,190,0.15), inset 0 0 30px rgba(123,47,190,0.05);
+  animation: floatNode3 6s ease-in-out infinite;
+}
+.sangakukan-node.node-gaku .node-kanji { color: var(--purple); }
+
+/* Float animations */
+@keyframes floatNode1 {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-12px); }
+}
+@keyframes floatNode2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes floatNode3 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* Ripple effect */
+.sangakukan-node::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0;
+  animation: ripple 4.5s ease-out infinite;
+}
+.sangakukan-node.node-san::after { animation-delay: 0s; color: #E91E8C; }
+.sangakukan-node.node-kan::after { animation-delay: 1.5s; color: #304FFE; }
+.sangakukan-node.node-gaku::after { animation-delay: 3s; color: #7B2FBE; }
+
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .sangakukan-section { height: 420px; }
+  .sangakukan-node { width: 110px; height: 110px; }
+  .sangakukan-node .node-kanji { font-size: 32px; }
+  .sangakukan-node .node-sub { font-size: 10px; }
+  .sangakukan-node.node-san { top: 8%; left: 50%; transform: translateX(-50%); }
+  .sangakukan-node.node-kan { left: calc(50% - 170px); }
+  .sangakukan-node.node-gaku { left: calc(50% + 60px); }
+}
+
+/* ---- CONFERENCE ---- */
+.conference-title-block { text-align: center; margin-bottom: 80px; }
+.conference-main-title {
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 12px;
+}
+.conference-main-title .gradient-text {
+  background: linear-gradient(135deg, var(--magenta) 0%, var(--purple) 50%, var(--blue) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.timeline { position: relative; padding: 0; margin: 0 auto; max-width: 700px; }
+
+.timeline-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+
+.timeline-year {
+  flex: 0 0 160px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-right: 32px;
+}
+
+.timeline-year-number {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 900; letter-spacing: -0.05em; line-height: 1;
+  color: rgba(255,255,255,0.1);
+  transition: color 0.6s var(--ease-out-expo);
+}
+.timeline-item.visible .timeline-year-number { color: rgba(255,255,255,0.25); }
+
+.timeline-content-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+.timeline-content-link:hover {
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+}
+
+.timeline-photo {
+  width: 160px; height: 100px; flex-shrink: 0;
+  object-fit: cover; border-radius: 6px; background: var(--dark-gray);
+}
+.timeline-text { flex: 1; text-align: left; }
+.timeline-venue { font-size: clamp(16px, 1.6vw, 22px); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.timeline-detail { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .timeline-item { flex-direction: column; align-items: flex-start; }
+  .timeline-year { flex: 0 0 auto; justify-content: flex-start; padding: 0; margin-bottom: 4px; }
+  .timeline-content-link { flex-direction: column; align-items: flex-start; }
+  .timeline-photo { width: 120px; height: 75px; }
+}
+
+/* ---- BUSINESS AREAS ---- */
+/* ---- BUSINESS — full-width image cards, stacked ---- */
+.biz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 60px;
+}
+
+.biz-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 360px;
+  background: var(--dark-gray);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--white);
+  transition: background 0.4s ease;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.biz-card:last-child { border-bottom: none; }
+.biz-card:hover { background: #1e1e1e; }
+.biz-card:nth-child(even) { direction: rtl; }
+.biz-card:nth-child(even) > * { direction: ltr; }
+
+.biz-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.biz-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out-expo);
+}
+.biz-card:hover .biz-img {
+  transform: scale(1.05);
+}
+/* Color overlay on image */
+.biz-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  mix-blend-mode: soft-light;
+}
+.biz-card:hover .biz-img-wrap::after { opacity: 0.6; }
+.biz-card[data-color="magenta"] .biz-img-wrap::after { background: var(--magenta); }
+.biz-card[data-color="purple"] .biz-img-wrap::after { background: var(--purple); }
+.biz-card[data-color="blue"] .biz-img-wrap::after { background: var(--blue); }
+.biz-card[data-color="red"] .biz-img-wrap::after { background: var(--red); }
+.biz-card[data-color="yellow"] .biz-img-wrap::after { background: var(--yellow); }
+
+.biz-body {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.biz-name {
+  font-size: clamp(20px, 2.2vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.biz-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 2;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+.biz-arrow {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--magenta);
+  opacity: 1;
+  transform: none;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.biz-card:hover .biz-arrow {
+  transform: translateX(4px);
+}
+.biz-arrow .external-icon {
+  display: inline-block;
+  vertical-align: -2px;
+  margin-left: 2px;
+}
+
+@media (max-width: 768px) {
+  .biz-list { gap: 16px; }
+  .biz-card,
+  .biz-card:nth-child(even) {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    min-height: 300px;
+  }
+  .biz-card { border-radius: 8px; border-bottom: none; }
+  .biz-img-wrap { height: 200px; }
+  .biz-body { padding: 32px 24px; }
+}
+
+/* ---- DIRECTORS ---- */
+.directors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin-top: 48px;
+  text-align: left;
+}
+.director-photo { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background: var(--dark-gray); }
+.director-role { font-size: 12px; color: var(--magenta); font-weight: 500; margin-bottom: 8px; }
+.director-name { font-size: clamp(20px, 2vw, 28px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
+.director-bio { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.55); font-weight: 300; }
+
+@media (max-width: 900px) {
+  .directors-grid { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+  .director-photo { width: 200px; margin: 0 auto 20px; }
+  .director-role, .director-name { text-align: center; }
+  .director-bio { text-align: left; }
+}
+
+/* ---- COMPANY INFO ---- */
+.company-table {
+  width: 100%;
+  max-width: 360px;
+  margin: 48px auto 0;
+  border-collapse: collapse;
+  text-align: left;
+}
+.company-table th {
+  font-size: 13px;
+  color: var(--gray);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 18px 24px 18px 0;
+  width: 120px;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  white-space: nowrap;
+}
+.company-table td {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.85);
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.company-table tr:last-child th,
+.company-table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .company-table { max-width: 100%; }
+  .company-table th { width: 80px; }
+}
+
+/* ---- FLUID SNAKE DIVIDER ---- */
+.fluid-snake {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  overflow: visible;
+  z-index: 10;
+  margin-top: -100px;
+  margin-bottom: -100px;
+  pointer-events: none;
+}
+.fluid-snake canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.fluid-snake-fallback {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: none;
+}
+.fluid-snake-fallback .snake-line {
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 200%;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--magenta), var(--purple), var(--blue), var(--yellow), var(--red), var(--magenta));
+  background-size: 50% 100%;
+  animation: snakeMove 4s linear infinite;
+  filter: blur(1px);
+}
+.fluid-snake-fallback .snake-line:nth-child(2) {
+  top: calc(50% - 20px);
+  height: 2px;
+  opacity: 0.5;
+  animation-delay: -1s;
+  filter: blur(2px);
+}
+.fluid-snake-fallback .snake-line:nth-child(3) {
+  top: calc(50% + 20px);
+  height: 2px;
+  opacity: 0.5;
+  animation-delay: -2s;
+  filter: blur(2px);
+}
+@keyframes snakeMove {
+  0% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(12.5%) translateY(-15px); }
+  50% { transform: translateX(25%) translateY(0); }
+  75% { transform: translateX(37.5%) translateY(15px); }
+  100% { transform: translateX(50%) translateY(0); }
+}
+
+/* ---- CONTACT ---- */
+.contact-section { text-align: center; position: relative; background: transparent; }
+.contact-email {
+  display: inline-block;
+  font-size: clamp(16px, 2vw, 26px); font-weight: 600;
+  padding: 16px 48px;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 60px;
+  transition: all 0.4s var(--ease-out-expo);
+  margin-top: 16px;
+}
+.contact-email:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+
+/* ---- GRADIENT LINE ---- */
+.gradient-line {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 101;
+  height: 2px;
+  background: linear-gradient(90deg, var(--magenta), var(--purple), var(--blue), var(--yellow), var(--red));
+  background-size: 200% 100%;
+  animation: gradientShift 6s ease infinite;
+}
+@keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+</style>
+</head>
+<body>
+
+<div class="gradient-line"></div>
+
+<!-- ===== HERO with WebGL Fluid Funnel ===== -->
+<section class="hero" id="hero">
+  <canvas id="fluid"></canvas>
+
+  <div class="hero-content">
+    <img src="assets/images/logo-for-black-bg.png" alt="Designship" class="hero-logo-img">
+    <h1 class="hero-tagline">
+      <span class="line"><span>産業の未来を拓く</span></span>
+    </h1>
+    <p class="hero-sub">一般社団法人デザインシップ</p>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ===== MISSION ===== -->
+<section class="mission" id="mission">
+  <div class="section-pad">
+    <p class="section-label reveal">ミッション</p>
+    <h2 class="section-title reveal delay-1"><span class="accent">次世代の産業</span>に貢献する<br>デザイン人材の輩出。</h2>
+    <p class="section-desc reveal delay-2">
+      産業においてデザインの対象範囲や役割が拡張し、かつてないほどに重要視される世の流れに沿って、次世代におけるあるべきデザイン人材像を構想し、国民の創造性向上に寄与することを目的としています。2018年の設立以来、カンファレンス、教育、行政支援、企業研修、フリーランスコレクティブなど多角的な事業を展開しています。
+    </p>
+
+    <!-- 産官学連携 Diagram — Creative Glassmorphism -->
+    <div class="sangakukan-section reveal delay-3">
+      <div class="sangakukan-container">
+
+        <!-- Connecting lines drawn via JS to match actual node positions -->
+        <canvas class="sangaku-lines-canvas" id="sangakuCanvas"></canvas>
+
+        <!-- 産 node -->
+        <div class="sangakukan-node node-san">
+          <span class="node-kanji">産</span>
+          <span class="node-sub">企業・スタートアップ</span>
+        </div>
+
+        <!-- 官 node -->
+        <div class="sangakukan-node node-kan">
+          <span class="node-kanji">官</span>
+          <span class="node-sub">行政・地方自治体</span>
+        </div>
+
+        <!-- 学 node -->
+        <div class="sangakukan-node node-gaku">
+          <span class="node-kanji">学</span>
+          <span class="node-sub">大学・研究機関</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== BUSINESSES ===== -->
+<section id="businesses" style="min-height:auto;">
+  <div class="section-pad">
+    <h2 class="section-title reveal delay-1">運営事業</h2>
+    <p class="section-desc reveal delay-2">デザインを軸にした10の事業を展開しています。</p>
+
+    <div class="biz-list">
+
+      <!-- 1. カンファレンス運営 -->
+      <a href="pages/conference.html" class="biz-card reveal" data-color="magenta">
+        <div class="biz-img-wrap"><img src="assets/images/biz/conference.jpg" alt="カンファレンス運営" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">カンファレンス運営</h3>
+          <p class="biz-desc">2018年より毎年開催する日本最大級のデザインカンファレンス「Designship」。最前線で活躍するデザイナーが登壇し、デザインの現在と未来を共有する年に一度の祭典。</p>
+          <span class="biz-arrow">カンファレンス運営の詳細をみる →</span>
+        </div>
+      </a>
+
+      <!-- 2. ハッカソン運営 (NEW) -->
+      <a href="https://hack-1.com/" class="biz-card reveal" data-color="red" target="_blank" rel="noopener">
+        <div class="biz-img-wrap"><img src="assets/images/biz/hack1.jpg" alt="ハッカソン運営" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">ハッカソン運営</h3>
+          <p class="biz-desc">高校生から社会人まで、デザインとテクノロジーの力で社会課題に挑む「Hack-1グランプリ」を運営。東京大学をはじめ全国の会場で開催。</p>
+          <span class="biz-arrow">Hack-1グランプリ <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+        </div>
+      </a>
+
+      <!-- 3. イベント企画支援 -->
+      <a href="pages/event-planning.html" class="biz-card reveal" data-color="blue">
+        <div class="biz-img-wrap"><img src="assets/images/biz/img-talk-event.jpg" alt="イベント企画支援" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">イベント企画支援</h3>
+          <p class="biz-desc">Tokyo Midtown DESIGN TOUCH、世界デザイン会議東京2023など、大規模デザインイベントの企画・運営を支援。コンセプト設計からプログラム構成、当日運営まで一気通貫でサポート。</p>
+          <span class="biz-arrow">イベント企画支援の詳細をみる →</span>
+        </div>
+      </a>
+
+      <!-- 4. イベント配信支援 -->
+      <a href="pages/streaming.html" class="biz-card reveal" data-color="purple">
+        <div class="biz-img-wrap"><img src="assets/images/biz/streaming.jpg" alt="イベント配信支援" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">イベント配信支援</h3>
+          <p class="biz-desc">カンファレンス運営で培った高品質なオンライン配信技術を提供。Goodpatch、弁護士ドットコム、日本デザイン振興会など多数の配信実績。</p>
+          <span class="biz-arrow">イベント配信支援の詳細をみる →</span>
+        </div>
+      </a>
+
+      <!-- 5. トーク番組 -->
+      <a href="https://dialogue.design-ship.jp/" class="biz-card reveal" data-color="magenta" target="_blank" rel="noopener">
+        <div class="biz-img-wrap"><img src="assets/images/biz/img-online-talk.jpg" alt="トーク番組" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">トーク番組</h3>
+          <p class="biz-desc">グッドデザイン賞とのコラボレーションによるトーク番組「Dialogue」。デザインの深層に迫る対話を通じて、新たな視座を提供。</p>
+          <span class="biz-arrow">Dialogue <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+        </div>
+      </a>
+
+      <!-- 6. 行政支援 -->
+      <a href="pages/gov.html" class="biz-card reveal" data-color="yellow">
+        <div class="biz-img-wrap"><img src="assets/images/biz/gov.jpg" alt="行政支援" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">行政支援</h3>
+          <p class="biz-desc">行政機関のデザイン導入を支援。東京都港区「区民にわかりやすい情報発信 デザイン研修」、東京都狛江市「デザイン作成入門研修」など多数の実績。</p>
+          <span class="biz-arrow">行政支援の詳細をみる →</span>
+        </div>
+      </a>
+
+      <!-- 7. デザイン研修 -->
+      <a href="mailto:contact@design-ship.jp" class="biz-card reveal" data-color="blue">
+        <div class="biz-img-wrap"><img src="assets/images/biz/training.jpg" alt="デザイン研修" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">デザイン研修</h3>
+          <p class="biz-desc">デザイン基礎研修、デザイン思考ワークショップ、UXデザイン研修、サービスデザイン研修など。多摩美術大学、日本郵便、日立製作所、RINNAI等の実績。</p>
+          <span class="biz-arrow">お問い合わせ <svg style="display:inline-block;vertical-align:-2px;margin-left:4px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4 12 13 2 4"/></svg></span>
+        </div>
+      </a>
+
+      <!-- 8. デザインスタジオ -->
+      <a href="https://studio.design-ship.jp/" class="biz-card reveal" data-color="purple" target="_blank" rel="noopener">
+        <div class="biz-img-wrap"><img src="assets/images/biz/studio.jpg" alt="デザインスタジオ" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">デザインスタジオ</h3>
+          <p class="biz-desc">案件ごとに最適なフリーランスデザイナー・PMをアサインするオープン型デザインスタジオ「Designship Studio」。勉強会や共有フォーマットでチームの質を担保。</p>
+          <span class="biz-arrow">Designship Studio <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+        </div>
+      </a>
+
+      <!-- 9. デザインスクール -->
+      <a href="https://do.design-ship.jp/" class="biz-card reveal" data-color="magenta" target="_blank" rel="noopener">
+        <div class="biz-img-wrap"><img src="assets/images/biz/do.jpg" alt="デザインスクール" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">デザインスクール</h3>
+          <p class="biz-desc">「Design × Business × Leadership」をテーマにした実戦型デザインスクール「Designship Do」。経済産業省の提唱する「高度デザイン人材」の育成を目的とした教育プログラム。</p>
+          <span class="biz-arrow">Designship Do <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+        </div>
+      </a>
+
+      <!-- 10. デザイン振興 -->
+      <a href="pages/promotion.html" class="biz-card reveal" data-color="yellow">
+        <div class="biz-img-wrap"><img src="assets/images/biz/img-whitepaper.jpg" alt="デザイン振興" class="biz-img" loading="lazy"></div>
+        <div class="biz-body">
+          <h3 class="biz-name">デザイン振興</h3>
+          <p class="biz-desc">経済産業省関連事業への協力やデザインに関する調査・研究など、デザインの社会的価値を広める活動を推進。</p>
+          <span class="biz-arrow">デザイン振興の詳細をみる →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIRECTORS ===== -->
+<section id="directors" style="min-height:auto; background:var(--dark-gray);">
+  <div class="section-pad">
+    <h2 class="section-title reveal delay-1">理事紹介</h2>
+
+    <div class="directors-grid">
+
+      <div class="reveal delay-1">
+        <img src="assets/images/hirono2.png" alt="広野 萌" class="director-photo" loading="lazy">
+        <p class="director-role">代表理事</p>
+        <h3 class="director-name">広野 萌</h3>
+        <p class="director-bio">ヤフー株式会社にて新規事業企画やモバイルアプリのUX推進を手掛けたのち、2015年に株式会社FOLIOを共同創業。CDO兼プロダクトマネージャーとしてオンライン証券を立ち上げる。2018年に一般社団法人デザインシップを設立。2021年に株式会社フォルテを設立。2021年より内閣官房IT総合戦略室を経てデジタル庁所属。広告電通賞選考委員。</p>
+      </div>
+
+      <div class="reveal delay-2">
+        <img src="assets/images/hosomi2.png" alt="細見 沙央梨" class="director-photo" loading="lazy">
+        <p class="director-role">理事</p>
+        <h3 class="director-name">細見 沙央梨</h3>
+        <p class="director-bio">武蔵野美術大学大学院造形構想研究科修士課程修。LINEヤフー株式会社にて「Yahoo!JAPANトップページ（アプリ/スマートフォンWeb）」のユーザー体験・UI設計からPdM、デザイン責任者、デザインリーダーまで担当。2018年には一般社団法人デザインシップを共同創業し、3000人規模のデザインカンファレンスの運営や、実戦型デザインスクール「Designship Do」等事業全体のブランド統括、地方公共団体デザイン支援事業の立ち上げを実施。ダークパターンなどデザイン倫理の研究にも取り組む。</p>
+      </div>
+
+      <div class="reveal delay-3">
+        <img src="assets/images/komatsu2.jpg" alt="小松 尚平" class="director-photo" loading="lazy">
+        <p class="director-role">理事</p>
+        <h3 class="director-name">小松 尚平</h3>
+        <p class="director-bio">東京大学大学院 情報学環 特任研究員、高知大学医学部 特任講師、株式会社BiPSEE 取締役CPO。東京大学では、キャンパスウェルビーイング推進アドバイザリーボード委員およびブランドスタジオ アドバイザーも兼任。2018年に一般社団法人デザインシップを共同創業。2021年からうつ病向けVR治療プロダクト開発を統括、2023年「戦災VR」を開発。主なTV・メディア出演に「PIVOT EXTREME SCIENCE（2024）」NHK Eテレ「科学の扉、開けちゃいました。（2024-2025）」等。主な受賞に「グッドデザイン賞」「日テレイマジナリウムアワードXR部門大賞」等。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPANY INFO ===== -->
+<section id="company" style="min-height:auto; position:relative; z-index:1;">
+  <div class="section-pad">
+    <h2 class="section-title reveal">法人概要</h2>
+
+    <table class="company-table reveal delay-1">
+      <tr><th>法人名</th><td>一般社団法人デザインシップ<br>Designship, Inc.</td></tr>
+      <tr><th>設立</th><td>2018年4月2日</td></tr>
+      <tr><th>代表理事</th><td>広野 萌</td></tr>
+      <tr><th>所在地</th><td>〒105-0013<br>東京都港区浜松町2-2-15<br>浜松町ダイヤビル2F</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== FLUID SNAKE DIVIDER ===== -->
+<div class="fluid-snake" id="fluid-snake">
+  <canvas id="fluid-snake-canvas"></canvas>
+  <div class="fluid-snake-fallback">
+    <div class="snake-line"></div>
+    <div class="snake-line"></div>
+    <div class="snake-line"></div>
+  </div>
+</div>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact-section" id="contact">
+  <div class="section-pad" style="text-align:center;">
+    <h2 class="section-title reveal delay-1">ご連絡ください</h2>
+    <p class="section-desc reveal delay-2" style="margin:0 auto 32px;">
+      取材や各種事業へのお問い合わせは下記メールアドレスまでお気軽にご連絡ください。
+    </p>
+    <a href="mailto:contact@design-ship.jp" class="contact-email reveal delay-3">contact@design-ship.jp</a>
+  </div>
+</section>
+
+<footer style="text-align:center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div style="display:flex; justify-content:center; gap:24px;">
+    <a href="pages/privacy-policy.html" style="font-size:12px; color:#888;">プライバシーポリシー</a>
+    <a href="pages/ticket-policy.html" style="font-size:12px; color:#888;">特定商取引法に基づく表記</a>
+  </div>
+  <p style="font-size:11px; color:rgba(255,255,255,0.2); margin-top:16px;">© Designship, Inc.</p>
+</footer>
+
+<!-- ===== WebGL Fluid Funnel Shader ===== -->
+<script>
+(function () {
+  const canvas = document.getElementById('fluid');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) {
+    console.warn('WebGL not supported');
+    return;
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = canvas.clientWidth * dpr;
+    canvas.height = canvas.clientHeight * dpr;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ---- Shaders ---- */
+  const vsSource = `
+    attribute vec2 a_position;
+    void main() {
+      gl_Position = vec4(a_position, 0.0, 1.0);
+    }
+  `;
+
+  window._heroFS = null; // will be set after definition
+  const fsSource = `
+    precision highp float;
+
+    uniform float u_time;
+    uniform vec2  u_resolution;
+
+    /* ----- Simplex 3D noise (Ashima Arts) ----- */
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+    float snoise(vec3 v) {
+      const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+      const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+      vec3 i  = floor(v + dot(v, C.yyy));
+      vec3 x0 = v - i + dot(i, C.xxx);
+
+      vec3 g = step(x0.yzx, x0.xyz);
+      vec3 l = 1.0 - g;
+      vec3 i1 = min(g.xyz, l.zxy);
+      vec3 i2 = max(g.xyz, l.zxy);
+
+      vec3 x1 = x0 - i1 + C.xxx;
+      vec3 x2 = x0 - i2 + C.yyy;
+      vec3 x3 = x0 - D.yyy;
+
+      i = mod289(i);
+      vec4 p = permute(permute(permute(
+                 i.z + vec4(0.0, i1.z, i2.z, 1.0))
+               + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+               + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+      float n_ = 0.142857142857;
+      vec3 ns = n_ * D.wyz - D.xzx;
+
+      vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+
+      vec4 x_ = floor(j * ns.z);
+      vec4 y_ = floor(j - 7.0 * x_);
+
+      vec4 x = x_ * ns.x + ns.yyyy;
+      vec4 y = y_ * ns.x + ns.yyyy;
+      vec4 h = 1.0 - abs(x) - abs(y);
+
+      vec4 b0 = vec4(x.xy, y.xy);
+      vec4 b1 = vec4(x.zw, y.zw);
+
+      vec4 s0 = floor(b0)*2.0 + 1.0;
+      vec4 s1 = floor(b1)*2.0 + 1.0;
+      vec4 sh = -step(h, vec4(0.0));
+
+      vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+      vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+
+      vec3 p0 = vec3(a0.xy, h.x);
+      vec3 p1 = vec3(a0.zw, h.y);
+      vec3 p2 = vec3(a1.xy, h.z);
+      vec3 p3 = vec3(a1.zw, h.w);
+
+      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+      p0 *= norm.x;
+      p1 *= norm.y;
+      p2 *= norm.z;
+      p3 *= norm.w;
+
+      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+      m = m * m;
+      return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+    }
+
+    /* ----- FBM (fractal brownian motion) ----- */
+    float fbm(vec3 p) {
+      float val = 0.0;
+      float amp = 0.5;
+      float freq = 1.0;
+      for (int i = 0; i < 3; i++) {
+        val += amp * snoise(p * freq);
+        freq *= 2.0;
+        amp *= 0.5;
+      }
+      return val;
+    }
+
+    /* ----- Domain warping for organic flow ----- */
+    float warpedNoise(vec3 p) {
+      vec3 q = vec3(
+        fbm(p + vec3(0.0, 0.0, 0.0)),
+        fbm(p + vec3(5.2, 1.3, 2.8)),
+        0.0
+      );
+      vec3 r = vec3(
+        fbm(p + 4.0 * q + vec3(1.7, 9.2, 0.0)),
+        fbm(p + 4.0 * q + vec3(8.3, 2.8, 0.0)),
+        0.0
+      );
+      return fbm(p + 3.5 * r);
+    }
+
+    /* ----- Funnel mask: organic cone expanding left to right ----- */
+    float funnelMask(vec2 uv, float t) {
+      float xn = uv.x;
+      float expansion = pow(xn, 0.8);
+      float minHalf = 0.02;
+      float maxHalf = 0.40;
+      float halfH = mix(minHalf, maxHalf, expansion * expansion);
+
+      float aspect = u_resolution.x / u_resolution.y;
+      float diagLeft = mix(0.38, 0.5, xn);
+      float dipLeft = -0.25 * exp(-pow((xn - 0.48) / 0.15, 2.0));
+      float rt = smoothstep(0.45, 1.0, xn);
+      float bezRight = (1.0-rt)*(1.0-rt)*(1.0-rt)*0.25 + 3.0*(1.0-rt)*(1.0-rt)*rt*0.3 + 3.0*(1.0-rt)*rt*rt*0.72 + rt*rt*rt*0.92;
+      float blend = smoothstep(0.4, 0.55, xn);
+      float diagonal = mix(diagLeft + dipLeft, bezRight, blend);
+
+      float wave = 0.06 * sin(xn * 6.0 + t * 0.25)
+                 + 0.03 * sin(xn * 11.0 - t * 0.4);
+      wave *= smoothstep(0.0, 0.1, xn);
+      float snake = wave;
+      float centerY = diagonal + snake;
+      float dist = abs(uv.y - centerY);
+      float edgeNoise = fbm(vec3(uv.x * 4.0, uv.y * 3.0, t * 0.15)) * 0.08;
+      edgeNoise += fbm(vec3(uv.x * 8.0 + 10.0, uv.y * 6.0, t * 0.1)) * 0.04 * expansion;
+      float boundary = halfH + edgeNoise;
+      float softness = mix(0.02, 0.08, expansion);
+      float mask = 1.0 - smoothstep(boundary - softness, boundary + softness, dist);
+      float leftFade = smoothstep(-0.02, 0.08, xn);
+      mask *= leftFade;
+      return mask;
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_resolution;
+      float aspect = u_resolution.x / u_resolution.y;
+      vec2 st = (uv - 0.5) * vec2(aspect, 1.0);
+
+      float t = u_time * 0.06;
+
+      vec3 magenta = vec3(0.914, 0.118, 0.549);
+      vec3 purple  = vec3(0.482, 0.184, 0.745);
+      vec3 red     = vec3(1.000, 0.090, 0.267);
+      vec3 yellow  = vec3(1.000, 0.839, 0.000);
+      vec3 blue    = vec3(0.188, 0.310, 0.996);
+
+      float flowBias = t * 0.4;
+
+      float n1 = warpedNoise(vec3(st * 1.8 + vec2( 0.3 - flowBias,  0.5), t));
+      float n2 = warpedNoise(vec3(st * 1.6 + vec2(-0.7 - flowBias * 0.8,  0.2), t * 1.1 + 10.0));
+      float n3 = warpedNoise(vec3(st * 2.0 + vec2( 0.5 - flowBias * 0.9, -0.6), t * 0.9 + 20.0));
+      float n4 = warpedNoise(vec3(st * 1.4 + vec2(-0.2 - flowBias * 0.7, -0.4), t * 1.2 + 30.0));
+      float n5 = warpedNoise(vec3(st * 1.9 + vec2( 0.8 - flowBias * 1.1,  0.1), t * 0.8 + 40.0));
+
+      float ink1 = smoothstep(0.05, 0.45, n1) * smoothstep(-0.1, 0.3, n1);
+      float ink2 = smoothstep(0.10, 0.50, n2) * smoothstep(-0.05, 0.35, n2);
+      float ink3 = smoothstep(0.08, 0.42, n3) * smoothstep(-0.08, 0.28, n3);
+      float ink4 = smoothstep(0.12, 0.48, n4) * smoothstep(-0.02, 0.32, n4);
+      float ink5 = smoothstep(0.06, 0.44, n5) * smoothstep(-0.12, 0.26, n5);
+
+      ink1 *= 0.75;
+      ink2 *= 0.65;
+      ink3 *= 0.60;
+      ink4 *= 0.55;
+      ink5 *= 0.65;
+
+      float xPos = uv.x;
+
+      float reveal1 = smoothstep(0.0,  0.08, xPos);
+      float reveal2 = smoothstep(0.05, 0.20, xPos);
+      float reveal3 = smoothstep(0.25, 0.55, xPos);
+      float reveal4 = smoothstep(0.55, 0.85, xPos);
+      float reveal5 = smoothstep(0.12, 0.35, xPos);
+
+      ink1 *= reveal1;
+      ink2 *= reveal2;
+      ink3 *= reveal3;
+      ink4 *= reveal4;
+      ink5 *= reveal5;
+
+      float richness = mix(0.75, 1.3, smoothstep(0.1, 0.7, xPos));
+      ink1 *= richness;
+      ink2 *= richness;
+      ink3 *= richness;
+      ink4 *= richness;
+      ink5 *= richness;
+
+      vec3 col = vec3(0.0);
+      col += magenta * ink1;
+      col += purple  * ink2;
+      col += red     * ink3;
+      col += yellow  * ink4;
+      col += blue    * ink5;
+
+      float mask = funnelMask(uv, u_time * 0.06);
+      col *= mask;
+
+      float edgeGlow = smoothstep(0.0, 0.15, mask) * smoothstep(0.0, 0.05, mask);
+      col *= mix(0.6, 1.0, edgeGlow);
+
+      float vig = 1.0 - 0.2 * length(uv - 0.5);
+      col *= vig;
+
+      col = col / (1.0 + col);
+      col = pow(col, vec3(0.90));
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  window._heroFS = fsSource;
+
+  /* ---- Compile & link ---- */
+  function createShader(type, source) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, source);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s));
+      gl.deleteShader(s);
+      return null;
+    }
+    return s;
+  }
+
+  const vs = createShader(gl.VERTEX_SHADER, vsSource);
+  const fs = createShader(gl.FRAGMENT_SHADER, fsSource);
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(program));
+    return;
+  }
+  gl.useProgram(program);
+
+  /* ---- Fullscreen quad ---- */
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    -1, -1,  1, -1,  -1, 1,
+    -1,  1,  1, -1,   1, 1
+  ]), gl.STATIC_DRAW);
+
+  const aPos = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  const uTime = gl.getUniformLocation(program, 'u_time');
+  const uRes  = gl.getUniformLocation(program, 'u_resolution');
+
+  /* ---- Render loop (~30fps via frame skip) ---- */
+  const startTime = performance.now();
+  let frameCount = 0;
+
+  function frame() {
+    frameCount++;
+    // Skip every other frame to target ~30fps
+    if (frameCount % 2 !== 0) {
+      requestAnimationFrame(frame);
+      return;
+    }
+
+    const t = (performance.now() - startTime) * 0.001;
+
+    if (canvas.width !== canvas.clientWidth * Math.min(window.devicePixelRatio, 1.5) ||
+        canvas.height !== canvas.clientHeight * Math.min(window.devicePixelRatio, 1.5)) {
+      resize();
+    }
+
+    gl.uniform1f(uTime, t);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
+})();
+</script>
+
+<!-- ===== Site Scripts ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // No loader — immediately show hero
+  var hero = document.querySelector('.hero');
+  document.addEventListener('DOMContentLoaded', function() {
+    hero.classList.add('loaded');
+  });
+  if (document.readyState !== 'loading') {
+    hero.classList.add('loaded');
+  }
+
+
+  // Reveal
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { rootMargin: '0px 0px -40px 0px', threshold: 0.05 });
+  document.querySelectorAll('.reveal, .timeline-item').forEach(function(el) { obs.observe(el); });
+
+  // 産官学 lines — draw from actual DOM positions
+  (function() {
+    var canvas = document.getElementById('sangakuCanvas');
+    if (!canvas) return;
+    var container = canvas.parentElement;
+    var san = container.querySelector('.node-san');
+    var kan = container.querySelector('.node-kan');
+    var gaku = container.querySelector('.node-gaku');
+    if (!san || !kan || !gaku) return;
+
+    var ctx = canvas.getContext('2d');
+    var dashOffset = 0;
+
+    function getCenter(el) {
+      var cr = el.getBoundingClientRect();
+      var pr = container.getBoundingClientRect();
+      return { x: cr.left - pr.left + cr.width / 2, y: cr.top - pr.top + cr.height / 2 };
+    }
+
+    function drawLine(a, b, color1, color2) {
+      var grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+      grad.addColorStop(0, color1);
+      grad.addColorStop(1, color2);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([8, 6]);
+      ctx.lineDashOffset = dashOffset;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+
+    function render() {
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = container.offsetWidth * dpr;
+      canvas.height = container.offsetHeight * dpr;
+      ctx.scale(dpr, dpr);
+
+      var s = getCenter(san);
+      var k = getCenter(kan);
+      var g = getCenter(gaku);
+
+      ctx.clearRect(0, 0, container.offsetWidth, container.offsetHeight);
+      drawLine(s, k, 'rgba(233,30,140,0.5)', 'rgba(48,79,254,0.5)');
+      drawLine(s, g, 'rgba(233,30,140,0.5)', 'rgba(123,47,190,0.5)');
+      drawLine(k, g, 'rgba(48,79,254,0.5)', 'rgba(123,47,190,0.5)');
+
+      dashOffset -= 0.3;
+      requestAnimationFrame(render);
+    }
+    // Start after a short delay to let CSS layout settle
+    setTimeout(render, 500);
+    window.addEventListener('resize', function() { setTimeout(render, 100); });
+  })();
+
+  // GSAP
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to('.hero-content', {
+    yPercent: 30, opacity: 0, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var t = document.querySelector(this.getAttribute('href'));
+      if (t) window.scrollTo({ top: t.offsetTop, behavior: 'smooth' });
+    });
+  });
+
+})();
+</script>
+
+<!-- ===== Fluid Snake WebGL ===== -->
+<script>
+(function() {
+  var snakeSection = document.getElementById('fluid-snake');
+  var canvas = document.getElementById('fluid-snake-canvas');
+  var fallback = snakeSection.querySelector('.fluid-snake-fallback');
+  var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+  if (!gl || !window._heroFS) {
+    // Fallback to CSS animation
+    canvas.style.display = 'none';
+    fallback.style.display = 'block';
+    return;
+  }
+
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = canvas.clientWidth * dpr;
+    canvas.height = canvas.clientHeight * dpr;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  var vsSource = 'attribute vec2 a_position; void main() { gl_Position = vec4(a_position, 0.0, 1.0); }';
+
+  // Modify the hero fragment shader: thin band, full width, no edge fade
+  var fsSource = window._heroFS
+    .replace(/float minHalf = [\d.]+;\s*float maxHalf = [\d.]+;/, 'float minHalf = 0.15; float maxHalf = 0.15;')
+    .replace(/float expansion = [^;]+;/, 'float expansion = 1.0;')
+    .replace(/float diagLeft = [^;]+;/, 'float diagLeft = 0.5;')
+    .replace(/float blend = [^;]+;/, 'float blend = 0.0;')
+    .replace(/float snake = wave;/, 'float snake = 0.25 * sin(xn * 8.0 + t * 0.3) + 0.15 * sin(xn * 13.0 - t * 0.5);')
+    .replace(/float richness = [^;]+;/, 'float richness = 1.0;');
+
+  function createShader(type, source) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, source);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s));
+      gl.deleteShader(s);
+      return null;
+    }
+    return s;
+  }
+
+  var vs = createShader(gl.VERTEX_SHADER, vsSource);
+  var fs = createShader(gl.FRAGMENT_SHADER, fsSource);
+  if (!vs || !fs) {
+    canvas.style.display = 'none';
+    fallback.style.display = 'block';
+    return;
+  }
+
+  var program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(program));
+    canvas.style.display = 'none';
+    fallback.style.display = 'block';
+    return;
+  }
+  gl.useProgram(program);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+  var aPos = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  var uTime = gl.getUniformLocation(program, 'u_time');
+  var uRes = gl.getUniformLocation(program, 'u_resolution');
+
+  var startTime = performance.now();
+  var running = false;
+  var frameCount = 0;
+
+  function frame() {
+    if (!running) return;
+    frameCount++;
+    if (frameCount % 2 !== 0) { requestAnimationFrame(frame); return; }
+    var t = (performance.now() - startTime) * 0.001;
+    if (canvas.width !== canvas.clientWidth * Math.min(window.devicePixelRatio, 1.5)) resize();
+    gl.uniform1f(uTime, t);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(frame);
+  }
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !running) {
+        running = true;
+        requestAnimationFrame(frame);
+      } else if (!e.isIntersecting) {
+        running = false;
+      }
+    });
+  }, { threshold: 0.05 });
+  obs.observe(snakeSection);
+})();
+</script>
+</body>
+</html>
