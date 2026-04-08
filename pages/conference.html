@@ -170,19 +170,20 @@ img { max-width: 100%; height: auto; display: block; }
   padding-right: 32px;
 }
 
-/* Dot: 10px diameter */
-.timeline-row::before {
-  content: '';
+/* Dot */
+.timeline-row::before { display: none; }
+.dot {
   position: absolute;
-  left: calc(120px - 100px - var(--dot-size) / 2 + 1px);
+  left: -20px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   width: var(--dot-size);
   height: var(--dot-size);
   border-radius: 50%;
   background: var(--magenta);
   border: 2px solid var(--black);
   z-index: 1;
+  flex-shrink: 0;
 }
 
 .timeline-row:hover {
@@ -241,7 +242,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 768px) {
   .timeline { padding-left: 36px; }
-  .timeline::before { left: 19px; }
+  .timeline::before { left: 17px; }
   .timeline-row {
     flex-direction: column;
     align-items: flex-start;
@@ -250,10 +251,10 @@ img { max-width: 100%; height: auto; display: block; }
     position: relative;
   }
   .timeline-row:last-child { margin-bottom: 0; }
-  .timeline-row::before {
-    left: -21px;
+  .dot {
+    left: -18px;
     top: 14px;
-    transform: none;
+    transform: translateX(-50%);
     width: 10px;
     height: 10px;
   }
@@ -292,7 +293,7 @@ img { max-width: 100%; height: auto; display: block; }
 
   <div class="timeline" id="timeline">
 
-    <a href="https://design-ship.jp/2018" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2018" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2018</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2018.jpg" alt="Designship 2018" class="timeline-photo">
@@ -304,7 +305,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2019" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2019" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2019</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2019.jpg" alt="Designship 2019" class="timeline-photo">
@@ -316,7 +317,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2020" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2020" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2020</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2020.jpg" alt="Designship 2020" class="timeline-photo">
@@ -328,7 +329,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2021" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2021" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2021</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2021.jpg" alt="Designship 2021" class="timeline-photo">
@@ -340,7 +341,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2022" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2022" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2022</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2022.jpg" alt="Designship 2022" class="timeline-photo">
@@ -352,7 +353,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2023" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2023" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2023</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2023.jpg" alt="Designship 2023" class="timeline-photo">
@@ -364,7 +365,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2024" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2024" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2024</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2024.jpg" alt="Designship 2024" class="timeline-photo">
@@ -376,7 +377,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2025" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2025" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2025</div>
       <div class="timeline-right">
         <img src="../assets/images/conf-2025.jpg" alt="Designship 2025" class="timeline-photo">
@@ -388,7 +389,7 @@ img { max-width: 100%; height: auto; display: block; }
       </div>
     </a>
 
-    <a href="https://design-ship.jp/2026/sponsor" target="_blank" rel="noopener" class="timeline-row">
+    <a href="https://design-ship.jp/2026/sponsor" target="_blank" rel="noopener" class="timeline-row"><span class="dot"></span>
       <div class="timeline-year">2026</div>
       <div class="timeline-right">
         <img src="../assets/images/logo-for-black-bg.png" alt="Designship 2026" class="timeline-photo logo-photo">
