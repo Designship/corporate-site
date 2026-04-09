@@ -74,8 +74,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .section-title {
-  font-size: clamp(28px, 4vw, 48px);
-  font-weight: 800;
+  font-size: clamp(24px, 3.2vw, 40px);
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.3;
   margin-bottom: 24px;
@@ -84,7 +84,7 @@ img { max-width: 100%; height: auto; display: block; }
 .section-desc {
   font-size: clamp(14px, 1.2vw, 16px);
   font-weight: 300;
-  color: rgba(0,0,0,0.6);
+  color: rgba(0,0,0,0.85);
   line-height: 2;
   max-width: 720px;
   margin: 0 auto;
@@ -94,63 +94,82 @@ img { max-width: 100%; height: auto; display: block; }
 .reveal { opacity: 1; transform: none; }
 .delay-1, .delay-2, .delay-3 { transition-delay: 0s; }
 
-/* ---- HERO ---- */
+/* ---- SITE HEADER ---- */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 64px;
+  background: transparent;
+  border-bottom: none;
+}
+.site-header-inner {
+  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+}
+.site-header-inner a {
+  display: flex;
+  align-items: center;
+  align-self: center;
+}
+.header-logo {
+  height: 68px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  margin-left: -15px;
+}
+
+
+/* ---- HERO / MISSION ---- */
 .hero {
   min-height: 100vh;
-  width: 100vw;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
-}
-
-
-.hero-content {
-  position: relative;
-  z-index: 2;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  pointer-events: none;
-  padding-bottom: 10vh;
+  justify-content: flex-start;
+  padding-top: 64px;
+  position: relative;
+  background: var(--white);
 }
-
-.hero-logo-img {
-  width: clamp(280px, 40vw, 500px);
-  height: auto;
-  filter: drop-shadow(0 2px 20px rgba(0,0,0,0.6));
-  margin-bottom: -10px;
-  opacity: 0;
-  transition: opacity 1s ease 0.3s;
-  pointer-events: auto;
+.hero-mission {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 40px 120px;
 }
-.hero.loaded .hero-logo-img { opacity: 1; }
-
-.hero-tagline {
-  font-size: clamp(36px, 7vw, 96px);
-  font-weight: 900;
+.hero-mission-label {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--magenta);
+  font-weight: 500;
+  margin-bottom: 36px;
+  text-transform: uppercase;
+}
+.hero-mission-title {
+  font-size: clamp(32px, 4.5vw, 60px);
+  font-weight: 600;
   letter-spacing: -0.04em;
-  line-height: 1.15;
-  margin-bottom: 20px;
+  line-height: 1.2;
+  margin-bottom: 28px;
   color: var(--black);
-  text-shadow: none;
 }
-.hero-tagline .line { display: block; overflow: hidden; }
-.hero-tagline .line span { display: inline-block; transform: translateY(120%); transition: transform 1.4s var(--ease-out-expo); }
-.hero.loaded .hero-tagline .line span { transform: translateY(0); }
-
-.hero-sub {
-  font-size: clamp(14px, 1.4vw, 17px);
-  font-weight: 700;
-  opacity: 0;
-  transition: opacity 1s ease 0.7s;
-  color: var(--gray);
+.hero-mission-desc {
+  font-size: clamp(14px, 1.15vw, 16px);
+  font-weight: 300;
+  color: rgba(0,0,0,0.85);
+  line-height: 2.1;
+  max-width: 640px;
 }
-.hero.loaded .hero-sub { opacity: 1; }
-
 .hero-scroll {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2;
+  position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); z-index: 2;
   display: flex; flex-direction: column; align-items: center; gap: 12px;
-  opacity: 0; animation: fadeIn 1s ease 1.2s forwards;
+  opacity: 0; animation: fadeIn 1s ease 0.6s forwards;
 }
 .hero-scroll span { font-size: 11px; color: var(--gray); }
 .scroll-line { width: 1px; height: 50px; background: rgba(0,0,0,0.2); position: relative; overflow: hidden; }
@@ -159,194 +178,9 @@ img { max-width: 100%; height: auto; display: block; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 @media (max-width: 768px) {
-  .hero { overflow: visible; }
-  .hero-logo-img { width: 70vw; max-width: 320px; }
-  .hero-tagline {
-    font-size: clamp(28px, 8vw, 48px);
-  }
-}
-
-/* ---- MISSION ---- */
-.mission { padding: 0; position: relative; overflow: visible; background: transparent; }
-.mission .section-title {
-  font-size: clamp(24px, 3.5vw, 52px);
-}
-.mission .section-title .accent {
-  background: linear-gradient(135deg, var(--magenta), var(--purple));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-
-.mission .section-pad {
-  position: relative;
-  z-index: 1;
-}
-.mission .section-desc { text-align: left; }
-
-/* ---- 産官学 DIAGRAM ---- */
-.sangakukan-section {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  margin-top: 60px;
-  padding-bottom: 80px;
-  background: radial-gradient(ellipse at center, rgba(123,47,190,0.08) 0%, rgba(233,30,140,0.04) 30%, transparent 70%);
-  border-radius: 24px;
-  overflow: visible;
-}
-
-.sangakukan-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Connecting lines */
-.sangakukan-line {
-  position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, var(--magenta), var(--blue));
-  opacity: 0.3;
-  transform-origin: left center;
-}
-.sangakukan-line.line-1 {
-  width: 240px;
-  top: 38%;
-  left: calc(50% - 120px);
-  background: linear-gradient(90deg, var(--magenta), var(--blue));
-  stroke-dasharray: 8 6;
-}
-.sangakukan-line.line-2 {
-  width: 200px;
-  top: 55%;
-  left: calc(50% + 20px);
-  transform: rotate(60deg);
-  transform-origin: left center;
-  background: linear-gradient(90deg, var(--blue), var(--purple));
-}
-.sangakukan-line.line-3 {
-  width: 200px;
-  top: 55%;
-  right: calc(50% + 20px);
-  transform: rotate(-60deg);
-  transform-origin: right center;
-  background: linear-gradient(90deg, var(--purple), var(--magenta));
-}
-
-/* Lines canvas */
-.sangaku-lines-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Circle nodes */
-.sangakukan-node {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(0,0,0,0.15);
-  z-index: 2;
-  cursor: default;
-}
-.sangakukan-node .node-kanji {
-  font-size: 42px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.sangakukan-node .node-sub {
-  font-size: 11px;
-  font-weight: 300;
-  color: rgba(0,0,0,0.5);
-  margin-top: 8px;
-  text-align: center;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-
-/* Node positions — equilateral triangle: 産(top), 官(bottom-left), 学(bottom-right) */
-.sangakukan-node.node-san {
-  top: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(233,30,140,0.12);
-  box-shadow: 0 0 60px rgba(233,30,140,0.15), inset 0 0 30px rgba(233,30,140,0.05);
-  animation: floatNode1 6s ease-in-out infinite;
-}
-.sangakukan-node.node-san .node-kanji { color: var(--magenta); }
-
-.sangakukan-node.node-kan {
-  bottom: 10%;
-  left: calc(50% - 220px);
-  background: rgba(48,79,254,0.12);
-  box-shadow: 0 0 60px rgba(48,79,254,0.15), inset 0 0 30px rgba(48,79,254,0.05);
-  animation: floatNode2 6s ease-in-out infinite;
-}
-.sangakukan-node.node-kan .node-kanji { color: var(--blue); }
-
-.sangakukan-node.node-gaku {
-  bottom: 10%;
-  left: calc(50% + 80px);
-  background: rgba(123,47,190,0.12);
-  box-shadow: 0 0 60px rgba(123,47,190,0.15), inset 0 0 30px rgba(123,47,190,0.05);
-  animation: floatNode3 6s ease-in-out infinite;
-}
-.sangakukan-node.node-gaku .node-kanji { color: var(--purple); }
-
-/* Float animations */
-@keyframes floatNode1 {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-12px); }
-}
-@keyframes floatNode2 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-@keyframes floatNode3 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-}
-
-/* Ripple effect */
-.sangakukan-node::after {
-  content: '';
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  opacity: 0;
-  animation: ripple 4.5s ease-out infinite;
-}
-.sangakukan-node.node-san::after { animation-delay: 0s; color: #E91E8C; }
-.sangakukan-node.node-kan::after { animation-delay: 1.5s; color: #304FFE; }
-.sangakukan-node.node-gaku::after { animation-delay: 3s; color: #7B2FBE; }
-
-@keyframes ripple {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(2.5); opacity: 0; }
-}
-
-@media (max-width: 768px) {
-  .sangakukan-section { height: 420px; }
-  .sangakukan-node { width: 110px; height: 110px; }
-  .sangakukan-node .node-kanji { font-size: 32px; }
-  .sangakukan-node .node-sub { font-size: 10px; }
-  .sangakukan-node.node-san { top: 8%; left: 50%; transform: translateX(-50%); }
-  .sangakukan-node.node-kan { left: calc(50% - 170px); }
-  .sangakukan-node.node-gaku { left: calc(50% + 60px); }
+  .site-header-inner { padding: 0 20px; }
+  .hero-mission { padding: 60px 20px 100px; }
+  .section-pad { padding-left: 20px; padding-right: 20px; }
 }
 
 /* ---- CONFERENCE ---- */
@@ -480,14 +314,14 @@ img { max-width: 100%; height: auto; display: block; }
 
 .biz-name {
   font-size: clamp(20px, 2.2vw, 32px);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
   line-height: 1.3;
 }
 .biz-desc {
   font-size: 14px;
-  color: rgba(0,0,0,0.55);
+  color: rgba(0,0,0,0.85);
   line-height: 2;
   font-weight: 300;
   margin-bottom: 20px;
@@ -532,8 +366,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .director-photo { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background: #e0e0e0; }
 .director-role { font-size: 12px; color: var(--magenta); font-weight: 500; margin-bottom: 8px; }
-.director-name { font-size: clamp(20px, 2vw, 28px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
-.director-bio { font-size: 13px; line-height: 2; color: rgba(0,0,0,0.55); font-weight: 300; }
+.director-name { font-size: clamp(20px, 2vw, 28px); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 16px; }
+.director-bio { font-size: 13px; line-height: 2; color: rgba(0,0,0,0.85); font-weight: 300; }
 
 @media (max-width: 900px) {
   .directors-grid { grid-template-columns: 1fr; gap: 60px; text-align: center; }
@@ -581,12 +415,21 @@ img { max-width: 100%; height: auto; display: block; }
 
 
 /* ---- CONTACT ---- */
-.contact-section { text-align: center; position: relative; z-index: 2; }
+.contact-section {
+  position: relative;
+  z-index: 2;
+  background: #f5f5f5;
+}
+.contact-section .section-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .contact-email {
   display: inline-block;
   font-size: clamp(16px, 2vw, 26px); font-weight: 600;
   padding: 16px 48px;
-  border: 1px solid rgba(0,0,0,0.25); border-radius: 60px;
+  border: 1.5px solid var(--black); border-radius: 60px;
   transition: all 0.4s var(--ease-out-expo);
   margin-top: 16px;
 }
@@ -605,59 +448,24 @@ img { max-width: 100%; height: auto; display: block; }
 </head>
 <body>
 
-<div class="gradient-line"></div>
-
-<!-- ===== HERO ===== -->
-<section class="hero" id="hero">
-
-  <div class="hero-content">
-    <img src="assets/images/logo.png" alt="Designship" class="hero-logo-img">
-    <h1 class="hero-tagline">
-      <span class="line"><span>産業の未来を拓く</span></span>
-    </h1>
-    <p class="hero-sub">一般社団法人デザインシップ</p>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/">
+      <img src="assets/images/logo.png" alt="Designship" class="header-logo">
+    </a>
   </div>
-  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
-</section>
+</header>
 
-<!-- ===== MISSION ===== -->
-<section class="mission" id="mission">
-  <div class="section-pad">
-    <p class="section-label reveal">ミッション</p>
-    <h2 class="section-title reveal delay-1"><span class="accent">次世代の産業</span>に貢献する<br>デザイン人材の輩出。</h2>
-    <p class="section-desc reveal delay-2">
+<!-- ===== HERO / MISSION ===== -->
+<section class="hero" id="mission">
+  <div class="hero-mission">
+    <p class="hero-mission-label">Mission</p>
+    <h1 class="hero-mission-title">次世代の産業に貢献する<br>デザイン人材の輩出。</h1>
+    <p class="hero-mission-desc">
       デザインシップは、産業においてデザインの対象範囲や役割が拡張しかつてないほどに重要視される世の流れに沿って、現在だけではなく次世代においてあるべきデザイン人材像を構想し、示し、その目標までの道のりを支え、もって国民の創造性向上に寄与することを目的とし、その目的に資するため事業をおこなっています。全事業においてコラボレーションを重視しており、様々なデザイン団体との協力や、産官学の連携を重視しています。
     </p>
-
-    <!-- 産官学連携 Diagram — Creative Glassmorphism -->
-    <div class="sangakukan-section reveal delay-3">
-      <div class="sangakukan-container">
-
-        <!-- Connecting lines drawn via JS to match actual node positions -->
-        <canvas class="sangaku-lines-canvas" id="sangakuCanvas"></canvas>
-
-        <!-- 産 node -->
-        <div class="sangakukan-node node-san">
-          <span class="node-kanji">産</span>
-          <span class="node-sub">企業・スタートアップ</span>
-        </div>
-
-        <!-- 官 node -->
-        <div class="sangakukan-node node-kan">
-          <span class="node-kanji">官</span>
-          <span class="node-sub">行政・地方自治体</span>
-        </div>
-
-        <!-- 学 node -->
-        <div class="sangakukan-node node-gaku">
-          <span class="node-kanji">学</span>
-          <span class="node-sub">大学・研究機関</span>
-        </div>
-
-      </div>
-    </div>
-
   </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- ===== BUSINESSES ===== -->
@@ -670,7 +478,7 @@ img { max-width: 100%; height: auto; display: block; }
 
       <!-- 1. カンファレンス運営 -->
       <a href="pages/conference.html" class="biz-card reveal" data-color="magenta">
-        <div class="biz-img-wrap"><img src="assets/images/biz/conference.jpg" alt="カンファレンス運営" class="biz-img" loading="lazy"></div>
+        <div class="biz-img-wrap"><img src="assets/images/biz/conference02.jpg" alt="カンファレンス運営" class="biz-img" loading="lazy"></div>
         <div class="biz-body">
           <h3 class="biz-name">カンファレンス運営</h3>
           <p class="biz-desc">2018年より毎年開催する日本最大級のデザインカンファレンス「Designship」。最前線で活躍するデザイナーが登壇し、デザインの現在と未来を共有する年に一度の祭典。</p>
@@ -700,7 +508,7 @@ img { max-width: 100%; height: auto; display: block; }
 
       <!-- 4. イベント配信支援 -->
       <a href="pages/streaming.html" class="biz-card reveal" data-color="purple">
-        <div class="biz-img-wrap"><img src="assets/images/biz/streaming.jpg" alt="イベント配信支援" class="biz-img" loading="lazy"></div>
+        <div class="biz-img-wrap"><img src="assets/images/biz/streaming02.jpg" alt="イベント配信支援" class="biz-img" loading="lazy"></div>
         <div class="biz-body">
           <h3 class="biz-name">イベント配信支援</h3>
           <p class="biz-desc">カンファレンス運営で培った高品質なオンライン配信技術を提供。Goodpatch、弁護士ドットコム、日本デザイン振興会など多数の配信実績。</p>
@@ -720,7 +528,7 @@ img { max-width: 100%; height: auto; display: block; }
 
       <!-- 6. 行政支援 -->
       <a href="pages/gov.html" class="biz-card reveal" data-color="yellow">
-        <div class="biz-img-wrap"><img src="assets/images/biz/gov.jpg" alt="行政支援" class="biz-img" loading="lazy"></div>
+        <div class="biz-img-wrap"><img src="assets/images/biz/gov2.jpg" alt="行政支援" class="biz-img" loading="lazy"></div>
         <div class="biz-body">
           <h3 class="biz-name">行政支援</h3>
           <p class="biz-desc">行政機関のデザイン導入を支援。東京都港区「区民にわかりやすい情報発信 デザイン研修」、東京都狛江市「デザイン作成入門研修」など多数の実績。</p>
@@ -740,7 +548,7 @@ img { max-width: 100%; height: auto; display: block; }
 
       <!-- 8. デザインスタジオ -->
       <a href="https://studio.design-ship.jp/" class="biz-card reveal" data-color="purple" target="_blank" rel="noopener">
-        <div class="biz-img-wrap"><img src="assets/images/biz/studio.jpg" alt="デザインスタジオ" class="biz-img" loading="lazy"></div>
+        <div class="biz-img-wrap"><img src="assets/images/biz/studio02.jpg" alt="デザインスタジオ" class="biz-img" loading="lazy"></div>
         <div class="biz-body">
           <h3 class="biz-name">デザインスタジオ</h3>
           <p class="biz-desc">案件ごとに最適なフリーランスデザイナー・PMをアサインするオープン型デザインスタジオ「Designship Studio」。勉強会や共有フォーマットでチームの質を担保。</p>
@@ -821,7 +629,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 <!-- ===== CONTACT ===== -->
 <section class="contact-section" id="contact">
-  <div class="section-pad" style="text-align:center; padding-top:40px;">
+  <div class="section-pad">
     <h2 class="section-title reveal delay-1">ご連絡ください</h2>
     <p class="section-desc reveal delay-2" style="margin:0 auto 32px;">
       取材や各種事業へのお問い合わせは下記メールアドレスまでお気軽にご連絡ください。
@@ -867,70 +675,6 @@ img { max-width: 100%; height: auto; display: block; }
     entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { rootMargin: '0px 0px -40px 0px', threshold: 0.05 });
   document.querySelectorAll('.reveal, .timeline-item').forEach(function(el) { obs.observe(el); });
-
-  // 産官学 lines — draw from actual DOM positions
-  (function() {
-    var canvas = document.getElementById('sangakuCanvas');
-    if (!canvas) return;
-    var container = canvas.parentElement;
-    var san = container.querySelector('.node-san');
-    var kan = container.querySelector('.node-kan');
-    var gaku = container.querySelector('.node-gaku');
-    if (!san || !kan || !gaku) return;
-
-    var ctx = canvas.getContext('2d');
-    var dashOffset = 0;
-
-    function getCenter(el) {
-      var cr = el.getBoundingClientRect();
-      var pr = container.getBoundingClientRect();
-      return { x: cr.left - pr.left + cr.width / 2, y: cr.top - pr.top + cr.height / 2 };
-    }
-
-    function drawLine(a, b, color1, color2) {
-      var grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-      grad.addColorStop(0, color1);
-      grad.addColorStop(1, color2);
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([8, 6]);
-      ctx.lineDashOffset = dashOffset;
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
-    }
-
-    function render() {
-      var dpr = window.devicePixelRatio || 1;
-      canvas.width = container.offsetWidth * dpr;
-      canvas.height = container.offsetHeight * dpr;
-      ctx.scale(dpr, dpr);
-
-      var s = getCenter(san);
-      var k = getCenter(kan);
-      var g = getCenter(gaku);
-
-      ctx.clearRect(0, 0, container.offsetWidth, container.offsetHeight);
-      drawLine(s, k, 'rgba(233,30,140,0.5)', 'rgba(48,79,254,0.5)');
-      drawLine(s, g, 'rgba(233,30,140,0.5)', 'rgba(123,47,190,0.5)');
-      drawLine(k, g, 'rgba(48,79,254,0.5)', 'rgba(123,47,190,0.5)');
-
-      dashOffset -= 0.3;
-      requestAnimationFrame(render);
-    }
-    // Start after a short delay to let CSS layout settle
-    setTimeout(render, 500);
-    window.addEventListener('resize', function() { setTimeout(render, 100); });
-  })();
-
-  // GSAP
-  gsap.registerPlugin(ScrollTrigger);
-
-  gsap.to('.hero-content', {
-    yPercent: 30, opacity: 0, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
 
   // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(function(a) {
