@@ -35,12 +35,12 @@
   --timeline-rows: 9;
 }
 
-html { scroll-behavior: smooth; background: var(--black); }
+html { scroll-behavior: smooth; background: var(--white); }
 
 body {
   font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--black);
-  color: var(--white);
+  background: var(--white);
+  color: var(--black);
   line-height: 1.8;
 }
 
@@ -58,7 +58,8 @@ img { max-width: 100%; height: auto; display: block; }
   right: 0;
   z-index: 100;
   padding: 16px 24px;
-  background: rgba(0,0,0,0.85);
+  background: rgba(255,255,255,0.92);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -69,7 +70,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--gray);
   transition: color 0.3s ease;
 }
-.top-bar a:hover { color: var(--white); }
+.top-bar a:hover { color: var(--black); }
 
 /* Page layout */
 .page-header {
@@ -88,7 +89,7 @@ img { max-width: 100%; height: auto; display: block; }
 .page-title {
   font-size: clamp(28px, 4vw, 48px);
   font-weight: 700;
-  color: var(--white);
+  color: var(--black);
   line-height: 1.3;
   text-align: left;
   margin-bottom: 4px;
@@ -113,7 +114,7 @@ img { max-width: 100%; height: auto; display: block; }
 .page-description {
   font-size: clamp(14px, 1.2vw, 16px);
   font-weight: 300;
-  color: rgba(255,255,255,0.6);
+  color: rgba(0,0,0,0.85);
   line-height: 2;
   max-width: 100%;
   margin: 0 0 0;
@@ -195,12 +196,12 @@ img { max-width: 100%; height: auto; display: block; }
   height: var(--dot-size);
   border-radius: 50%;
   background: var(--magenta);
-  border: 2px solid var(--black);
+  border: 2px solid var(--white);
   z-index: 1;
 }
 
 .timeline-row:hover {
-  background: rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.05);
 }
 
 .timeline-right {
@@ -217,14 +218,14 @@ img { max-width: 100%; height: auto; display: block; }
   flex-shrink: 0;
   object-fit: cover;
   border-radius: 6px;
-  background: var(--dark-gray);
+  background: #e0e0e0;
 }
 
 .timeline-photo.logo-photo {
   width: 140px;
   height: 90px;
   object-fit: contain;
-  background: var(--black);
+  background: #f5f5f5;
   padding: 12px;
 }
 
